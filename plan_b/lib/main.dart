@@ -1,192 +1,144 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
-import 'package:plan_b/src/pages/home.dart';
-import 'package:plan_b/src/pages/map.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:plan_b/src/init/fcm_init.dart';
+import 'package:plan_b/src/di/di.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:plan_b/src/splash_page/ui/view/splash_page.dart';
 
-void main() {
-  runApp(App());
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setSystemUIOverlayStyle(
+    const SystemUiOverlayStyle(statusBarColor: Colors.white),
+  );
+  await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+  await Hive.initFlutter();
+  runApp(App(
+    blocList: await di(),
+  ));
 }
 
-class App extends StatefulWidget{
-  App({super.key});
+class App extends StatelessWidget{
+  const App({super.key, required this.blocList});
 
-  @override
-  State<App> createState() => _AppState();
-}
-
-class OSJIconButton extends StatelessWidget {
-  const OSJIconButton(
-      {super.key,
-        required this.width,
-        required this.height,
-        required this.iconSize,
-        required this.color,
-        required this.iconColor,
-        required this.iconData,
-        this.function});
-
-  final double width, height, iconSize;
-  final Color color, iconColor;
-  final IconData iconData;
-  final Function? function;
+  final List<BlocProvider> blocList;
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: function != null ? () => function : null,
-      child: Container(
-        width: width,
-        height: height,
-        decoration: BoxDecoration(
-          color: color,
-          borderRadius: BorderRadius.circular(16.0),
-        ),
-        child: Center(
-          child: Icon(iconData, size: iconSize, color: iconColor),
-        ),
-      ),
-    );
-  }
-}
-
-class OSJImageButton extends StatelessWidget {
-  const OSJImageButton({
-    super.key,
-    required this.width,
-    required this.height,
-    required this.color,
-    required this.imagePath,
-    this.function,
-    this.imageWidth,
-    this.imageHeight,
-  });
-
-  final double width, height;
-  final double? imageWidth, imageHeight;
-  final Color color;
-  final String imagePath;
-  final Function? function;
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: function != null ? () => function : null,
-      child: Container(
-        width: width,
-        height: height,
-        decoration: BoxDecoration(
-          color: color,
-          borderRadius: BorderRadius.circular(16.0),
-        ),
-        child: Center(
-          child: Image.asset(
-            imagePath,
-            width: imageWidth ?? 24.0,
-            height: imageHeight ?? 24.0,
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _AppState extends State<App> with SingleTickerProviderStateMixin{
-  late TabController controller;
-  int selectedIndex = 1;
-  bool isChange = false;
-
-  void initState(){
-    super.initState();
-    controller = TabController(length: 2, vsync: this)
-      ..index = 1
-      ..animation?.addListener(() {
-        if (controller.offset >= 0.5 &&
-            controller.offset < 1.0 &&
-            isChange == false) {
-          setState(() {
-            isChange = true;
-            selectedIndex = 1;
-          });
-        }
-        if (controller.offset < 0.5 &&
-            controller.offset > 0.0 &&
-            isChange == true) {
-          setState(() {
-            isChange = false;
-            selectedIndex = 0;
-          });
-        }
-        if (controller.offset >= -0.5 &&
-            controller.offset < 0.0 &&
-            isChange == false) {
-          setState(() {
-            isChange = true;
-            selectedIndex = 1;
-          });
-        }
-        if (controller.offset < -0.5 &&
-            controller.offset > -1.0 &&
-            isChange == true) {
-          setState(() {
-            isChange = false;
-            selectedIndex = 0;
-          });
-        }
-        if (controller.offset == 1.0 || controller.offset == 0.0) {
-          setState(() {
-            isChange = false;
-          });
-        }
-      });
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    controller.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home : Scaffold(
-        backgroundColor: Colors.white,
-        body: TabBarView(
-          controller: controller,
-          children: [
-            Home(),
-            Map(),
-          ],
-        ),
-        bottomNavigationBar: TabBar(
-          padding: EdgeInsets.only(top: 10.0, bottom: 30.0),
-          dividerColor: Colors.transparent,
-          controller: controller,
-          indicatorColor: Colors.transparent,
-          tabs: [
-            OSJIconButton(
-                width: 185.0,
-                height: 48.0,
-                iconSize: 24.0,
-                color: selectedIndex == 0
-                    ? Color(0xFFEBEBEB)
-                    : Colors.white,
-                iconColor: selectedIndex == 0
-                    ? Color(0xFF27AB00)
-                    : Color(0xFFEBEBEB),
-                iconData: Icons.home),
-            OSJImageButton(
-              width: 185.0,
-              height: 48.0,
-              color:
-              selectedIndex == 1 ? Color(0xFFEBEBEB) : Colors.white,
-              imagePath: selectedIndex == 1
-                  ? "assets/images/metaverse3.png"
-                  : "assets/images/metaverse2.png",
+    return MultiBlocProvider(
+      providers: blocList,
+      child: ScreenUtilInit(
+        designSize: const Size(430, 932),
+        builder: (context, child) {
+          fcmInit(context);
+          return MaterialApp(
+            theme: ThemeData(
+              splashColor: Colors.transparent,
+              highlightColor: Colors.transparent,
             ),
-          ],
-        ),
+            debugShowCheckedModeBanner: false,
+            home: SplashPage(),
+          );
+        },
       ),
     );
   }
+}
+
+enum CurrentState {
+  smooth(
+      color: Colors.green,
+      deepColor: Colors.lightGreenAccent,
+      deviceIconColor: Colors.lightGreen,
+      text: "원활"),
+  common(
+      color: Colors.yellow,
+      deepColor: Colors.yellowAccent,
+      deviceIconColor: Colors.yellow,
+      text: "보통"),
+  confusion(
+      color: Colors.orange,
+      deepColor: Colors.orangeAccent,
+      deviceIconColor: Colors.deepOrange,
+      text: "혼잡"),
+  veryconfusion(
+      color: Colors.red,
+      deepColor: Colors.redAccent,
+      deviceIconColor: Colors.red,
+      text: "매우 혼잡");
+
+  bool get isWorking => this == CurrentState.smooth;
+
+  bool get isAvailable => this == CurrentState.common;
+
+  bool get isDisconnected => this == CurrentState.confusion;
+
+  bool get isBreakdown => this == CurrentState.veryconfusion;
+
+  final Color color, deepColor, deviceIconColor;
+  final String text;
+
+  const CurrentState({
+    required this.color,
+    required this.deepColor,
+    required this.deviceIconColor,
+    required this.text,
+  });
+}
+
+enum DeviceType {
+  gaon(
+    text: "1층 가온실",
+  ),
+  naon(
+    text: "1층 나온실",
+  ),
+  empty(
+    text: "",
+  );
+
+  bool get isWash => this == DeviceType.gaon;
+
+  bool get isEmpty => this == DeviceType.empty;
+
+  final String text;
+
+  const DeviceType({
+    required this.text,
+  });
+}
+
+enum RoomLocation {
+  schoolSide(roomName: "남자 학교측 세탁실"),
+  dormitorySide(roomName: "남자 기숙사측 세탁실"),
+  schoolGirlSide(roomName: "여자 기숙사측 세탁실");
+
+  bool get isSchoolSide => this == RoomLocation.schoolSide;
+
+  bool get isDormitorySide => this == RoomLocation.dormitorySide;
+
+  bool get isSchoolGirlSide => this == RoomLocation.schoolGirlSide;
+
+  bool get isNotSchoolGirlSide => this != RoomLocation.schoolGirlSide;
+
+  const RoomLocation({required this.roomName});
+
+  final String roomName;
+}
+
+enum LaundryRoomLayer {
+  first(icon: Icons.looks_one_outlined),
+  second(icon: Icons.looks_two_outlined);
+
+  bool get isFirst => this == LaundryRoomLayer.first;
+
+  bool get isSecond => this == LaundryRoomLayer.second;
+
+  const LaundryRoomLayer({required this.icon});
+
+  final IconData icon;
 }
