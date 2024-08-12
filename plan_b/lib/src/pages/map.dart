@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:plan_b/src/pages/setting_page/ui/view/setting_page.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart' as s;
-import 'package:plan_b/src/pages/gaon.dart';
+import 'package:plan_b/src/pages/study_page/ui/view/gaon.dart';
 import 'package:plan_b/src/pages/naon.dart';
-import 'package:plan_b/src/pages/room_page/ui/view/daon.dart';
+import 'package:plan_b/src/pages/study_page/ui/view/daon.dart';
 import 'package:plan_b/src/pages/raon.dart';
 import 'package:plan_b/src/pages/three.dart';
 import 'package:plan_b/src/pages/fours.dart';
@@ -25,19 +25,19 @@ class Map extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        backgroundColor: Color(0xFFFFFFFF),
+        backgroundColor: Color(0xFFF1F3F0),
         appBar: AppBar(
-          backgroundColor: Colors.white,
+          backgroundColor: Color(0xFFF1F3F0),
           elevation: 0.0,
           leadingWidth: MediaQuery.of(context).size.width,
           title: Padding(
-            padding: EdgeInsets.only(left: 10.0.r),
+            padding: EdgeInsets.only(left: 9.0.r),
             child: Row(
               children: [
                 Image.asset(
                   "assets/images/lmetaverse.png",
-                  width: 24.0.w,
-                  height: 24.0.h,
+                  width: 30.0.w,
+                  height: 30.0.h,
                 ),
                 SizedBox(width: 8.0.w),
               ],
@@ -89,7 +89,7 @@ class Map extends StatelessWidget {
           ],
         ),
         body : Padding(
-          padding: EdgeInsets.only(left: 24.0.w, right: 24.0.w, top: 100.0.h),
+          padding: EdgeInsets.only(left: 24.0.w, right: 24.0.w, top: 80.0.h),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -124,7 +124,7 @@ class Map extends StatelessWidget {
                             height: 50,
                             child: ElevatedButton(
                               onPressed: () {Navigator.push(context,MaterialPageRoute(builder: (context)=>const five()),);}, child: Text("학교측"),style: OutlinedButton.styleFrom(
-                              backgroundColor: Color(0xFFEBEBEB),
+                              backgroundColor: Colors.white,
                               foregroundColor: Colors.black,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10.0),
@@ -135,7 +135,7 @@ class Map extends StatelessWidget {
                         ],
                       ),
                       SizedBox(
-                        height: 30,
+                        height: 35,
                       ),
                       Container(
                         margin: EdgeInsets.symmetric(horizontal: 14),
@@ -162,7 +162,7 @@ class Map extends StatelessWidget {
                             height: 50,
                             child: ElevatedButton(
                               onPressed: () {Navigator.push(context,MaterialPageRoute(builder: (context)=>const fours()),);}, child: Text("학교측"),style: OutlinedButton.styleFrom(
-                              backgroundColor: Color(0xFFEBEBEB),
+                              backgroundColor: Colors.white,
                               foregroundColor: Colors.black,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10.0),
@@ -178,7 +178,7 @@ class Map extends StatelessWidget {
                             height: 50,
                             child: ElevatedButton(
                               onPressed: () {Navigator.push(context,MaterialPageRoute(builder: (context)=>const fourg()),);}, child: Text("기숙사측"),style: OutlinedButton.styleFrom(
-                              backgroundColor: Color(0xFFEBEBEB),
+                              backgroundColor: Colors.white,
                               foregroundColor: Colors.black,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10.0),
@@ -189,7 +189,7 @@ class Map extends StatelessWidget {
                         ],
                       ),
                       SizedBox(
-                        height: 30,
+                        height: 35,
                       ),
                       Container(
                         margin: EdgeInsets.symmetric(horizontal: 14),
@@ -216,7 +216,7 @@ class Map extends StatelessWidget {
                             height: 50,
                             child: ElevatedButton(
                               onPressed: () {Navigator.push(context,MaterialPageRoute(builder: (context)=>const three()),);}, child: Text("기숙사측"),style: OutlinedButton.styleFrom(
-                              backgroundColor: Color(0xFFEBEBEB),
+                              backgroundColor: Colors.white,
                               foregroundColor: Colors.black,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10.0),
@@ -227,7 +227,7 @@ class Map extends StatelessWidget {
                         ],
                       ),
                       SizedBox(
-                        height: 30,
+                        height: 35,
                       ),
                       Container(
                         margin: EdgeInsets.symmetric(horizontal: 14),
@@ -253,8 +253,8 @@ class Map extends StatelessWidget {
                             width: 150,
                             height: 50,
                             child: ElevatedButton(
-                              onPressed: () {Navigator.push(context,MaterialPageRoute(builder: (context)=>const gaon()),);}, child: Text("가온실"),style: OutlinedButton.styleFrom(
-                              backgroundColor: Color(0xFFEBEBEB),
+                              onPressed: () {Navigator.push(context,MaterialPageRoute(builder: (context)=>gaon()),);}, child: Text("가온실"),style: OutlinedButton.styleFrom(
+                              backgroundColor: Colors.white,
                               foregroundColor: Colors.black,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10.0),
@@ -265,12 +265,12 @@ class Map extends StatelessWidget {
                           SizedBox(
                             width: 33,
                           ),
-                          Container(
+                          Container( //"현민의 이스터에그"
                             width: 150,
                             height: 50,
                             child: ElevatedButton(
                               onPressed: () {Navigator.push(context,MaterialPageRoute(builder: (context)=>const naon()),);}, child: Text("나온실"),style: OutlinedButton.styleFrom(
-                              backgroundColor: Color(0xFFEBEBEB),
+                              backgroundColor: Colors.white,
                               foregroundColor: Colors.black,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10.0),
@@ -293,7 +293,7 @@ class Map extends StatelessWidget {
                             height: 50,
                             child: ElevatedButton(
                               onPressed: () {Navigator.push(context,MaterialPageRoute(builder: (context)=> daon()),);}, child: Text("다온실"),style: OutlinedButton.styleFrom(
-                              backgroundColor: Color(0xFFEBEBEB),
+                              backgroundColor: Colors.white,
                               foregroundColor: Colors.black,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10.0),
@@ -309,7 +309,7 @@ class Map extends StatelessWidget {
                             height: 50,
                             child: ElevatedButton(
                               onPressed: () {Navigator.push(context,MaterialPageRoute(builder: (context)=>const raon()),);}, child: Text("라온실"),style: OutlinedButton.styleFrom(
-                              backgroundColor: Color(0xFFEBEBEB),
+                              backgroundColor: Colors.white,
                               foregroundColor: Colors.black,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10.0),
@@ -320,7 +320,6 @@ class Map extends StatelessWidget {
                         ],
                       ),
                     ],
-
                   )
                 ],
               ),

@@ -1,13 +1,13 @@
 class NoticeEntity {
-  final int noticeId;
+  final int noticeId; // 공지사항 ID 필드 추가
   final String title;
-  final String contents;
-  final String date;
+  final String writing;
+  final String? content; // 세부 내용을 위한 필드 (Optional)
 
-  const NoticeEntity({
-    required this.noticeId,
+  NoticeEntity({
+    required this.noticeId, // 필수 필드로 설정
     required this.title,
-    required this.contents,
-    required this.date,
+    required this.writing,
+    this.content,
   });
 }

@@ -23,31 +23,31 @@ class Home extends StatelessWidget {
   );
 
   final TextStyle smallStyle = TextStyle(
-    fontSize: 18.0.sp,
+    fontSize: 17.0.sp,
     color: Color(0xFFA9A9A9),
   );
 
   final TextStyle smallStyle2 = TextStyle(
-    fontSize: 18.0.sp,
+    fontSize: 17.0.sp,
     color: Color(0xFF27AB00),
   );
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Color(0xFFFFFFFF),
+        backgroundColor: Color(0xFFF1F3F0),
         appBar: AppBar(
-          backgroundColor: Colors.white,
+          backgroundColor: Color(0xFFF1F3F0),
           elevation: 0.0,
           leadingWidth: MediaQuery.of(context).size.width,
           title: Padding(
-            padding: EdgeInsets.only(left: 10.0.r),
+            padding: EdgeInsets.only(left: 9.0.r),
             child: Row(
               children: [
                 Image.asset(
                   "assets/images/lmetaverse.png",
-                  width: 24.0.w,
-                  height: 24.0.h,
+                  width: 30.0.w,
+                  height: 30.0.h,
                 ),
                 SizedBox(width: 8.0.w),
               ],
@@ -108,15 +108,15 @@ class Home extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("이제는 편리하게\n자습실 혼잡도를 확인", style: bigStyle),
-                  SizedBox(height: 24.0.h),
+                  Text("이제는 편리하게\n공간 혼잡도를 확인", style: bigStyle),
+                  SizedBox(height: 22.0.h),
                   RichText(
                     text: TextSpan(
                         text: 'PLAN-B',
                         style: smallStyle2,
                         children: <TextSpan>[
                           TextSpan(
-                              text: '를 사용하여 모든 자습실의 정보를\n누구보다 빠르게 확인하세요.',
+                              text: '를 사용하여 모든 공간의 정보를\n누구보다 빠르게 확인하세요.',
                               style: smallStyle
                           )
                         ]

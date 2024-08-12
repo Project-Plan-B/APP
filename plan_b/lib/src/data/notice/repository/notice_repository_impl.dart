@@ -14,7 +14,12 @@ class NoticeRepositoryImpl implements NoticeRepository {
         _localNoticeDataSource = localNoticeDataSource;
 
   @override
-  Future<List<NoticeEntity>> getNotice() => _remoteNoticeDataSource.getNotice();
+  Future<List<NoticeEntity>> getNotices() =>
+      _remoteNoticeDataSource.getNotices();
+
+  @override
+  Future<String> getNoticeDetail(int id) =>
+      _remoteNoticeDataSource.getNoticeDetail(id);
 
   @override
   int? getLastNoticeId({required String key}) =>

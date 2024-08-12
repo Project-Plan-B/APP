@@ -1,33 +1,33 @@
 import 'package:plan_b/src/domain/notice/entity/notice_entity.dart';
 
 class NoticeResponse {
-  final int id;
+  final int noticeId; // 공지사항 ID 필드
   final String title;
-  final String contents;
-  final String date;
+  final String writing; // 작성 날짜
+  final String? content; // 세부 내용 (Optional)
 
   NoticeResponse({
-    required this.id,
+    required this.noticeId,
     required this.title,
-    required this.contents,
-    required this.date,
+    required this.writing,
+    this.content,
   });
 
   factory NoticeResponse.fromJson(Map<String, dynamic> json) {
     return NoticeResponse(
-      id: json['id'],
+      noticeId: json['noticeId'],
       title: json['title'],
-      contents: json['contents'],
-      date: json['date'],
+      writing: json['writing'],
+      content: json['content'],
     );
   }
 
   NoticeEntity toEntity() {
     return NoticeEntity(
-      noticeId: id,
+      noticeId: noticeId,
       title: title,
-      contents: contents,
-      date: date,
+      writing: writing,
+      content: content,
     );
   }
 }

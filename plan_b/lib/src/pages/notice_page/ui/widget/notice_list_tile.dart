@@ -24,8 +24,9 @@ class _NoticeListTileState extends State<NoticeListTile> {
         margin: EdgeInsets.symmetric(vertical: 7.5.h),
         padding: EdgeInsets.all(20.0.r),
         decoration: const BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.all(Radius.circular(12))),
+          color: Colors.white,
+          borderRadius: BorderRadius.all(Radius.circular(12)),
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -36,31 +37,42 @@ class _NoticeListTileState extends State<NoticeListTile> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(widget.noticeEntity.title,
-                          maxLines: 4, style: TextStyle(fontSize: 16.0.sp)),
-                      Text(widget.noticeEntity.date,
-                          maxLines: 2, style: TextStyle(fontSize: 10.0.sp)),
+                      Text(
+                        widget.noticeEntity.title,
+                        maxLines: 4,
+                        style: TextStyle(fontSize: 16.0.sp),
+                      ),
+                      Text(
+                        widget.noticeEntity.writing, // 'date'를 'writing'으로 변경
+                        maxLines: 2,
+                        style: TextStyle(fontSize: 10.0.sp),
+                      ),
                     ],
                   ),
                 ),
                 Icon(
-                    _tap ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down),
+                  _tap ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
+                ),
               ],
             ),
             _tap
                 ? Markdown(
-                    padding: EdgeInsets.only(top: 10.0.r),
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    data: widget.noticeEntity.contents,
-                    onTapLink: (text, href, title) async {
-                      await launchUrl(Uri.parse(href!),
-                          mode: LaunchMode.externalApplication);
-                    },
-                    styleSheet: MarkdownStyleSheet(
-                      a: const TextStyle(color: Colors.blue),
-                    ),
-                  )
+              padding: EdgeInsets.only(top: 10.0.r),
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              data: widget.noticeEntity.content ?? '', // 'contents'를 'content'로 변경
+              onTapLink: (text, href, title) async {
+                if (href != null) {
+                  await launchUrl(
+                    Uri.parse(href),
+                    mode: LaunchMode.externalApplication,
+                  );
+                }
+              },
+              styleSheet: MarkdownStyleSheet(
+                a: const TextStyle(color: Colors.blue),
+              ),
+            )
                 : const SizedBox.shrink(),
           ],
         ),

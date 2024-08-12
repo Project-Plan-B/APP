@@ -158,7 +158,7 @@ class _BottomNaviState extends State<BottomNavi>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Color(0xFFF1F3F0),
       body: TabBarView(
         controller: controller,
         children: [
@@ -177,20 +177,20 @@ class _BottomNaviState extends State<BottomNavi>
               height: 48.0,
               iconSize: 24.0,
               color: selectedIndex == 0
-                  ? Color(0xFFEBEBEB)
-                  : Colors.white,
+                  ? Colors.white
+                  : Color(0xFFF1F3F0),
               iconColor: selectedIndex == 0
                   ? Color(0xFF27AB00)
-                  : Color(0xFFEBEBEB),
+                  : Color(0xffADB3BD),
               iconData: Icons.home),
           OSJImageButton(
             width: 185.0,
             height: 48.0,
             color:
-            selectedIndex == 1 ? Color(0xFFEBEBEB) : Colors.white,
+            selectedIndex == 1 ? Colors.white : Color(0xFFF1F3F0),
             imagePath: selectedIndex == 1
-                ? "assets/images/metaverse3.png"
-                : "assets/images/metaverse2.png",
+                ? "assets/images/lmetaverse.png"
+                : "assets/images/unmetavers.png",
           ),
         ],
       ),

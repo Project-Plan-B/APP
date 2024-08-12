@@ -12,9 +12,9 @@ class NoticePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey,
+      backgroundColor: Color(0xFFF1F3F0),
       appBar: AppBar(
-        backgroundColor: Colors.grey,
+        backgroundColor: Color(0xFFF1F3F0),
         elevation: 0.0,
         toolbarHeight: 90.0.r,
         leading: IconButton(

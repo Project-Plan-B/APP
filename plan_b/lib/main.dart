@@ -112,6 +112,19 @@ enum DeviceType {
   });
 }
 
+enum Pos {
+  school(text: "학교"),
+  cafe(text: "스터디 카페");
+
+  bool get isBoy => this == Pos.school;
+
+  bool get isGirl => this == Pos.cafe;
+
+  const Pos({required this.text});
+
+  final String text;
+}
+
 enum RoomLocation {
   schoolSide(roomName: "남자 학교측 세탁실"),
   dormitorySide(roomName: "남자 기숙사측 세탁실"),

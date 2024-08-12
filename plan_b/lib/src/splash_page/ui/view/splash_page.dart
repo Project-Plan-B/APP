@@ -16,6 +16,9 @@ import 'package:plan_b/src/pages/notice_page/bloc/notice_event.dart';
 import 'package:plan_b/src/bottom_navi.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
+import '../../../pages/study_page/bloc/study_bloc.dart';
+import '../../../pages/study_page/bloc/study_event.dart';
+
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});
 
@@ -34,16 +37,16 @@ class _SplashPageState extends State<SplashPage> {
     final newestAppVersion = jsonDecode(res.body)['version'];
     final storeState = jsonDecode(res.body)['store_status'];*/
 
-      Future.delayed(const Duration(seconds: 1)).then(
-            (value) {
-          Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(
-                builder: (context) => BottomNavi(),
-              ),
-                  (route) => false);
-        },
-      );
+    Future.delayed(const Duration(seconds: 1)).then(
+          (value) {
+        Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+              builder: (context) => BottomNavi(),
+            ),
+                (route) => false);
+      },
+    );
   }
 
   @override
@@ -51,16 +54,17 @@ class _SplashPageState extends State<SplashPage> {
     super.initState();
     checkAppVersion();
     context.read<NoticeBloc>().add(GetNoticeEvent());
+    context.read<LaundryBloc>().add(GetAllLaundryListEvent());
     context
         .read<ApplyBloc>()
         .add(GetApplyListEvent(getApplyListRequest: GetApplyListRequest()));
-
+    context.read<LaundryBloc>().add(GetLaundryEvent());
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Color(0xffF0F3F6),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -70,7 +74,6 @@ class _SplashPageState extends State<SplashPage> {
               width: 100.0.r,
               height: 100.0.r,
             ),
-            SizedBox(height: 12.0.h),
           ],
         ),
       ),

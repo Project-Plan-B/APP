@@ -12,7 +12,7 @@ class RemoteApplyDataSource {
       await FirebaseMessaging.instance.getToken() ?? "whatThe";
 
   Future<List<ApplyEntity>> getApplyList() async {
-    final response = await http.post(Uri.parse("123456/push_list"),
+    final response = await http.post(Uri.parse("http://192.168.54.52:8080/push_list"),
         body: {"token": await _getToken()});
     if (response.statusCode != 200) throw Exception(response.body);
     return (jsonDecode(response.body) as List<dynamic>)
@@ -23,7 +23,7 @@ class RemoteApplyDataSource {
   Future<void> applyCancel(
       {required ApplyCancelRequest applyCancelRequest}) async {
     applyCancelRequest.token = await _getToken();
-    final response = await http.post(Uri.parse("123456/push_cancel"),
+    final response = await http.post(Uri.parse("http://192.168.54.52:8080/push_cancel"),
         headers: {"Content-Type": "application/json"},
         body: json.encode(applyCancelRequest.toJson()));
     if (response.statusCode != 200) throw Exception(response.body);

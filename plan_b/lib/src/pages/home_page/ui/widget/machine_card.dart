@@ -26,7 +26,7 @@ class MachineCard extends MachineWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
-            "12번 건조기",
+            "1층 다온실",
             textScaler: TextScaler.noScaling,
             style: TextStyle(
                 fontSize: 20.0.sp,
@@ -36,7 +36,7 @@ class MachineCard extends MachineWidget {
           Container(
             padding: EdgeInsets.all(8.0.r),
             child: Text(
-              "고장",
+              "원활",
               textAlign: TextAlign.center,
               textScaler: TextScaler.noScaling,
               style: TextStyle(
@@ -62,7 +62,7 @@ class MachineCard extends MachineWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
-              "$deviceId번 ${deviceType.text}",
+              "$deviceId층 ${deviceType.text}",
               textScaler: TextScaler.noScaling,
               style: TextStyle(
                 fontSize: 20.0.sp,

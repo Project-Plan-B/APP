@@ -7,5 +7,5 @@ class GetNoticeUseCase {
   GetNoticeUseCase({required NoticeRepository noticeRepository})
       : _noticeRepository = noticeRepository;
 
-  Future<List<NoticeEntity>> execute() => _noticeRepository.getNotice();
+  Future<List<NoticeEntity>> execute() => _noticeRepository.getNotices();
 }

@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:plan_b/src/domain/room/use_case/get_room_room_index_use_case.dart';
-import 'package:plan_b/src/domain/room/use_case/update_room_room_index_use_case.dart';
+import 'package:plan_b/src/domain/study/use_case/get_study_room_index_use_case.dart';
+import 'package:plan_b/src/domain/study/use_case/update_study_room_index_use_case.dart';
 import 'package:plan_b/main.dart';
 import 'package:plan_b/src/pages/setting_page/bloc/laundry_room_model.dart';
 import 'package:plan_b/src/pages/setting_page/bloc/room_event.dart';
