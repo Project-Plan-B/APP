@@ -87,7 +87,7 @@ class _SettingPageState extends State<SettingPage> {
             SizedBox(height: 30.0.r),
             GestureDetector(
               onTap: () async => await launchUrl(
-                  Uri.parse('https://open.kakao.com/o/sHjnH1Se'),
+                  Uri.parse('https://open.kakao.com/o/siyJAQIg'),
                   mode: LaunchMode.externalApplication),
               behavior: HitTestBehavior.translucent,
               child: Row(

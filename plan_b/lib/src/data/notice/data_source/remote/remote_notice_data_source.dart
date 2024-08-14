@@ -5,13 +5,14 @@ import 'package:plan_b/src/domain/notice/entity/notice_entity.dart';
 
 class RemoteNoticeDataSource {
   Future<List<NoticeEntity>> getNotices() async {
-    final response = await http.get(Uri.parse("http://192.168.54.52:8080/list/show/all"));
+    final response = await http.get(Uri.parse("http://192.168.54.52:8080/list/show_all"));
 
     if (response.statusCode != 200) {
       throw Exception('Failed to load notices');
     }
 
-    final List<dynamic> data = jsonDecode(utf8.decode(response.bodyBytes));
+    final Map<String, dynamic> json = jsonDecode(utf8.decode(response.bodyBytes));
+    final List<dynamic> data = json['list']; // "list" 키에서 데이터를 가져옴
 
     // `NoticeResponse`로 변환하고, 다시 `NoticeEntity`로 변환
     return data.map((json) => NoticeResponse.fromJson(json).toEntity()).toList();

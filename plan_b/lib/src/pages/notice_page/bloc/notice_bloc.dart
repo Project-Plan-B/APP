@@ -33,8 +33,7 @@ class NoticeBloc extends Bloc<NoticeEvent, NoticeState<NoticeModel>> {
     try {
       emit(Loading());
       final noticeList = await _getNoticeUseCase.execute();
-      final isNewNotice =
-      _getLastNoticeIdUseCase.execute(noticeList: noticeList);
+      final isNewNotice = _getLastNoticeIdUseCase.execute(noticeList: noticeList);
       final newNoticeModel =
       NoticeModel(noticeList: noticeList, isNewNotice: isNewNotice);
       emit(Loaded(data: newNoticeModel));

@@ -13,6 +13,9 @@ import 'package:plan_b/src/pages/setting_page/bloc/room_bloc.dart';
 import 'package:plan_b/src/pages/setting_page/bloc/room_event.dart';
 import 'package:plan_b/src/pages/setting_page/bloc/room_state.dart';
 import 'package:plan_b/src/pages/planb_bottom_sheet.dart';
+import 'package:plan_b/src/pages/study_page/ui/widget/temp_gauge.dart';
+import 'package:plan_b/src/pages/study_page/ui/widget/humi_gauge.dart';
+import 'package:plan_b/src/data/study/data_source/sensor_api_service.dart'; // SensorApiService 추가
 
 class gaon extends StatefulWidget {
   @override
@@ -24,8 +27,19 @@ class _gaonState extends State<gaon> with SingleTickerProviderStateMixin {
   late Animation<double> _temperatureAnimation;
   late Animation<double> _humidityAnimation;
 
-  final double temperaturePercent = 0.6; // 온도 퍼센트
-  final double humidityPercent = 0.4;    // 습도 퍼센트
+  double temperaturePercent = 0.0;
+  double humidityPercent = 0.0;
+  int Aconfusiondata = 0;
+  int Bconfusiondata = 0;
+  int Cconfusiondata = 0;
+  int Dconfusiondata = 0;
+  int Econfusiondata = 0;
+  int Fconfusiondata = 0;
+
+  static const Color smooth = Color(0xFF30DB2C);
+  static const Color common = Color(0xFFFFF500);
+  static const Color confus = Color(0xFFFFB342);
+  static const Color veryco = Color(0xFFFF4C4C);
 
   late final List<LaundryEntity> list;
 
@@ -49,7 +63,39 @@ class _gaonState extends State<gaon> with SingleTickerProviderStateMixin {
         setState(() {});
       });
 
-    _animationController.forward();
+    _fetchSensorData(); // 데이터를 가져오는 메서드 호출
+    _confuData();
+  }
+
+  Future<void> _fetchSensorData() async {
+    try {
+      final sensorData = await SensorApiService().fetchSensorData();
+      setState(() {
+        temperaturePercent = sensorData['temperature'] / 100.0; // 서버에서 받은 데이터 범위에 따라 조정
+        humidityPercent = sensorData['humidity'] / 100.0; // 서버에서 받은 데이터 범위에 따라 조정
+        _temperatureAnimation = Tween<double>(begin: 0, end: temperaturePercent).animate(_animationController);
+        _humidityAnimation = Tween<double>(begin: 0, end: humidityPercent).animate(_animationController);
+        _animationController.forward();
+      });
+    } catch (e) {
+      print('Error fetching sensor data: $e');
+    }
+  }
+
+  Future<void> _confuData() async {
+    try{
+      final confu = await SensorApiService().confuData();
+      setState(() {
+        Aconfusiondata = confu['A'];
+        Bconfusiondata = confu['B'];
+        Cconfusiondata = confu['C'];
+        Dconfusiondata = confu['D'];
+        Econfusiondata = confu['E'];
+        Fconfusiondata = confu['F'];
+      });
+    } catch (e) {
+      print('Error confuData: $e');
+    }
   }
 
   @override
@@ -123,27 +169,27 @@ class _gaonState extends State<gaon> with SingleTickerProviderStateMixin {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                ColoredBox(color: Color(0xFF30DB2C)),
+                                ColoredBox(color: Aconfusiondata == 1 ? smooth : Aconfusiondata == 2 ? common : Aconfusiondata == 3 ? confus : veryco),
                                 SizedBox(width: 3.0.w),
-                                ColoredBox(color: Color(0xFFFFB342)),
+                                ColoredBox(color: Bconfusiondata == 1 ? smooth : Bconfusiondata == 2 ? common : Bconfusiondata == 3 ? confus : veryco),
                               ],
                             ),
                             SizedBox(height: 3.0.h), // 행 사이의 간격
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                ColoredBox(color: Color(0xFFFF4C4C)),
+                                ColoredBox(color: Cconfusiondata == 1 ? smooth : Cconfusiondata == 2 ? common : Cconfusiondata == 3 ? confus : veryco),
                                 SizedBox(width: 3.0.w),
-                                ColoredBox(color: Color(0xFFFFF500)),
+                                ColoredBox(color: Dconfusiondata == 1 ? smooth : Dconfusiondata == 2 ? common : Dconfusiondata == 3 ? confus : veryco),
                               ],
                             ),
                             SizedBox(height: 3.0.h), // 행 사이의 간격
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                ColoredBox(color: Color(0xFFFFB342)),
+                                ColoredBox(color: Econfusiondata == 1 ? smooth : Econfusiondata == 2 ? common : Econfusiondata == 3 ? confus : veryco),
                                 SizedBox(width: 3.0.w),
-                                ColoredBox(color: Color(0xFFFF4C4C)),
+                                ColoredBox(color: Fconfusiondata == 1 ? smooth : Fconfusiondata == 2 ? common : Fconfusiondata == 3 ? confus : veryco),
                               ],
                             ),
                           ],
@@ -176,121 +222,6 @@ class _gaonState extends State<gaon> with SingleTickerProviderStateMixin {
           ),
         };
       },
-    );
-  }
-}
-
-class TemperatureGauge extends StatelessWidget {
-  final Animation<double> animation;
-
-  TemperatureGauge({required this.animation});
-
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Container(
-          padding: EdgeInsets.only(top: 20.0.h),
-          child: LinearPercentIndicator(
-            alignment: MainAxisAlignment.center,
-            width: 330.0.w,
-            lineHeight: 25.0.h,
-            percent: animation.value,
-            barRadius: Radius.circular(16.0),
-            progressColor: animation.value <= 0.25 ? Color(0xff164ED4) : animation.value <= 0.5 ? Color(0xff7599ED) : animation.value <= 0.75 ? Color(0xff25BD1D):Color(0xffFFB342),
-            backgroundColor: Colors.white,
-          ),
-        ),
-        Positioned(
-          left: (330.0.w - 5.0.r) * animation.value + 8.0.r, // 더 세밀하게 조정
-          top: 20.0.h,
-          child: Icon(
-            Icons.thermostat,
-            color: animation.value < 0.12 ? Colors.transparent : Colors.white,
-            size: 25.0.r,
-          ),
-        ),
-        Positioned(
-          left: 63.0.w,
-          top: -3.0.h,
-          child: Text(
-            '현재 온도',
-            style: TextStyle(
-              fontSize: 14.0.sp,
-              color: Colors.black,
-            ),
-          ),
-        ),
-        Positioned(
-          right: 65.0.w,
-          top: -3.0.h,
-          child: Text(
-            '${(animation.value*100-50).toInt()}°C',
-            style: TextStyle(
-              fontSize: 14.0.sp,
-              color: Colors.black,
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class HumidityGauge extends StatelessWidget {
-  final Animation<double> animation;
-
-  HumidityGauge({required this.animation});
-
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Container(
-          padding: EdgeInsets.only(top: 20.0.h),
-          child: LinearPercentIndicator(
-            alignment: MainAxisAlignment.center,
-            width: 330.0.w,
-            lineHeight: 25.0.h,
-            percent: animation.value,
-            barRadius: Radius.circular(16.0),
-            progressColor: Color(0xff3C70EC),
-            backgroundColor: Colors.white,
-          ),
-        ),
-        Positioned(
-          // 아이콘을 percent의 끝부분과 일정하게 가깝게 설정
-          left: (330.0.w - 5.0.r) * animation.value + 8.0.r, // 더 세밀하게 조정
-          top: 20.0.h,
-          child: Icon(
-            Icons.water_drop,
-            color: animation.value < 0.12 ? Colors.transparent : Colors.white,
-            size: 25.0.r,
-          ),
-        ),
-        Positioned(
-          left: 63.0.w,
-          top: -3.0.h,
-          child: Text(
-            '현재 습도',
-            style: TextStyle(
-              fontSize: 14.0.sp,
-              color: Colors.black,
-            ),
-          ),
-        ),
-        Positioned(
-          right: 65.0.w,
-          top: -3.0.h,
-          child: Text(
-            '${(animation.value*100).toInt()}%',
-            style: TextStyle(
-              fontSize: 14.0.sp,
-              color: Colors.black,
-            ),
-          ),
-        ),
-      ],
     );
   }
 }
@@ -353,7 +284,6 @@ class LaundryList extends StatelessWidget {
       behavior: const ScrollBehavior().copyWith(overscroll: false),
       child: ListView.builder(
         itemCount: 8,
-        // laundryRoomModel.roomLocation == RoomLocation.womanRoom ? 10 : 8,
         itemBuilder: (context, index) {
           return Column(
             children: [
