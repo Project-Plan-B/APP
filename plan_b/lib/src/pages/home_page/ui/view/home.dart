@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart' as s;
 import 'package:plan_b/main.dart';
+import 'package:plan_b/src/init/fcm_init.dart';
 import 'package:plan_b/src/pages/home_page/bloc/home_bloc.dart';
 import 'package:plan_b/src/pages/home_page/bloc/home_model.dart';
 import 'package:plan_b/src/pages/home_page/bloc/home_state.dart';
@@ -19,17 +20,22 @@ class Home extends StatelessWidget {
   final TextStyle bigStyle = TextStyle(
     fontSize: 32.0.sp,
     color: Colors.black,
-    fontWeight: FontWeight.bold,
+    fontFamily: "NotoSansKR",
+    fontWeight: FontWeight.w700,
   );
 
   final TextStyle smallStyle = TextStyle(
     fontSize: 17.0.sp,
     color: Color(0xFFA9A9A9),
+    fontFamily: "NotoSansKR",
+    fontWeight: FontWeight.w500,
   );
 
   final TextStyle smallStyle2 = TextStyle(
     fontSize: 17.0.sp,
     color: Color(0xFF27AB00),
+    fontFamily: "NotoSansKR",
+    fontWeight: FontWeight.w500,
   );
 
   @override
@@ -125,66 +131,7 @@ class Home extends StatelessWidget {
                 ],
               ),
             ),
-            SizedBox(height: 20.0.h),
-            Expanded(
-              child: BlocBuilder<ApplyBloc, ApplyState<ApplyModel>>(
-                builder: (context, state) {
-                  return switch (state) {
-                    Empty() => const Center(child: Text("비어있음")),
-                    Loading() =>
-                    const Center(child: CircularProgressIndicator()),
-                    Error() => const Center(child: Text("인터넷 연결을 확인해주세요")),
-                    Loaded() => ScrollConfiguration(
-                      behavior:
-                      const ScrollBehavior().copyWith(overscroll: false),
-                      child: ListView.builder(
-                        itemCount: state.value.applyList.length.isEven
-                            ? state.value.applyList.length ~/ 2
-                            : state.value.applyList.length ~/ 2 + 1,
-                        itemBuilder: (context, index) {
-                          return Column(
-                            children: [
-                              Row(
-                                mainAxisAlignment:
-                                MainAxisAlignment.spaceAround,
-                                children: [
-                                  MachineCard(
-                                      deviceId: state.value
-                                          .applyList[index * 2].deviceId,
-                                      isEnableNotification: false,
-                                      deviceType: state.value
-                                          .applyList[index * 2].deviceType,
-                                      state: CurrentState.smooth),
-                                  index * 2 + 1 < state.value.applyList.length
-                                      ? MachineCard(
-                                      deviceId: state
-                                          .value
-                                          .applyList[index * 2 + 1]
-                                          .deviceId,
-                                      isEnableNotification: false,
-                                      deviceType: state
-                                          .value
-                                          .applyList[index * 2 + 1]
-                                          .deviceType,
-                                      state: CurrentState.smooth)
-                                      : const MachineCard(
-                                    //리팩토링 꼭 하기
-                                      deviceId: -1,
-                                      isEnableNotification: false,
-                                      deviceType: DeviceType.empty,
-                                      state: CurrentState.smooth)
-                                ],
-                              ),
-                              SizedBox(height: 20.0.r),
-                            ],
-                          );
-                        },
-                      ),
-                    ),
-                  };
-                },
-              ),
-            ),
+            SizedBox(height: 25.0.h),
           ],
         ),
       ),

@@ -32,6 +32,7 @@ class SettingPageBottomSheet extends StatelessWidget {
                       "메인 공간 설정",
                       style: TextStyle(
                           color: Colors.black,
+                          fontFamily: "NotoSansKR",
                           fontWeight: FontWeight.w600,
                           fontSize: 30.0.sp),
                     ),
@@ -42,7 +43,10 @@ class SettingPageBottomSheet extends StatelessWidget {
                     child: Text(
                       "공간 탭에서 처음에 보여질 공간을 선택해보세요.",
                       style: TextStyle(
-                          fontSize: 25.0.sp, color: Colors.black),
+                          fontSize: 25.0.sp, color: Colors.black,
+                        fontFamily: "NotoSansKR",
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
                   ),
                   SizedBox(height: 30.0.r),
@@ -100,6 +104,8 @@ class CheckButton extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 16.0.sp,
                   color: Colors.black,
+                  fontFamily: "NotoSansKR",
+                  fontWeight: FontWeight.w500,
                 ),
               ),
             ),

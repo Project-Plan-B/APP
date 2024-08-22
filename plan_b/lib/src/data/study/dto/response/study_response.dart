@@ -26,8 +26,8 @@ class LaundryResponse {
       state: CurrentState.values.elementAt(state),
       deviceType: deviceType == "GAON"
           ? DeviceType.gaon
-          : deviceType == "NAON"
-              ? DeviceType.naon
+          : deviceType == "DAON"
+              ? DeviceType.daon
               : DeviceType.empty,
     );
   }

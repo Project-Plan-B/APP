@@ -57,31 +57,36 @@ class MachineCard extends MachineWidget {
           borderRadius: BorderRadius.circular(16.0),
           color: Colors.white,
         ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text(
-              "$deviceId층 ${deviceType.text}",
-              textScaler: TextScaler.noScaling,
-              style: TextStyle(
-                fontSize: 20.0.sp,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-            Container(
-              padding: EdgeInsets.all(8.0.r),
-              child: Text(
-                state.text,
-                textAlign: TextAlign.center,
+        child: Padding(
+          padding: const EdgeInsets.only(top: 8,bottom: 15),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                "${deviceType.text}",
                 textScaler: TextScaler.noScaling,
                 style: TextStyle(
-                  color: state.deepColor,
                   fontSize: 20.0.sp,
+                  fontFamily: "NotoSansKR",
+                  fontWeight: FontWeight.w600,
                 ),
               ),
-            ),
-          ],
+              Container(
+                child: Text(
+                  state.text,
+                  textAlign: TextAlign.center,
+                  textScaler: TextScaler.noScaling,
+                  style: TextStyle(
+                    color: state.deepColor,
+                    fontSize: 20.0.sp,
+                    fontFamily: "NotoSansKR",
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

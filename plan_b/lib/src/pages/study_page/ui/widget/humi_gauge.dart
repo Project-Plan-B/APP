@@ -42,6 +42,8 @@ class HumidityGauge extends StatelessWidget {
             style: TextStyle(
               fontSize: 14.0.sp,
               color: Colors.black,
+              fontFamily: "NotoSansKR",
+              fontWeight: FontWeight.w500,
             ),
           ),
         ),
@@ -53,6 +55,8 @@ class HumidityGauge extends StatelessWidget {
             style: TextStyle(
               fontSize: 14.0.sp,
               color: Colors.black,
+              fontFamily: "NotoSansKR",
+              fontWeight: FontWeight.w400,
             ),
           ),
         ),

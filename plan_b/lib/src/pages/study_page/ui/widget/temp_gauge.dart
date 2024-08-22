@@ -20,7 +20,7 @@ class TemperatureGauge extends StatelessWidget {
             lineHeight: 25.0.h,
             percent: animation.value,
             barRadius: Radius.circular(16.0),
-            progressColor: animation.value <= 0.25 ? Color(0xff164ED4) : animation.value <= 0.5 ? Color(0xff7599ED) : animation.value <= 0.75 ? Color(0xff25BD1D):Color(0xffFFB342),
+            progressColor: animation.value <= 0.25 ? Color(0xff164ED4) : animation.value <= 0.5 ? Color(0xFF30DB2C) : animation.value <= 0.75 ? Color(0xFFFFB342):Color(0xFFFF4C4C),
             backgroundColor: Colors.white,
           ),
         ),
@@ -41,6 +41,8 @@ class TemperatureGauge extends StatelessWidget {
             style: TextStyle(
               fontSize: 14.0.sp,
               color: Colors.black,
+              fontFamily: "NotoSansKR",
+              fontWeight: FontWeight.w500,
             ),
           ),
         ),
@@ -48,10 +50,12 @@ class TemperatureGauge extends StatelessWidget {
           right: 65.0.w,
           top: -3.0.h,
           child: Text(
-            '${(animation.value*100).toInt()}°C',
+            '${(animation.value*100/2).toInt()}°C',
             style: TextStyle(
               fontSize: 14.0.sp,
               color: Colors.black,
+              fontFamily: "NotoSansKR",
+              fontWeight: FontWeight.w400,
             ),
           ),
         ),

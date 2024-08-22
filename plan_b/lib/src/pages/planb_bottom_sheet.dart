@@ -8,17 +8,18 @@ import 'package:plan_b/src/pages/setting_page/bloc/room_bloc.dart';
 import 'package:plan_b/src/pages/setting_page/bloc/room_event.dart';
 
 class OSJTextButton extends StatelessWidget {
-  const OSJTextButton(
-      {super.key,
-        required this.fontSize,
-        required this.color,
-        required this.fontColor,
-        required this.text,
-        this.width,
-        this.height,
-        this.function,
-        this.padding = EdgeInsets.zero,
-        this.radius = 16.0});
+  const OSJTextButton({
+    super.key,
+    required this.fontSize,
+    required this.color,
+    required this.fontColor,
+    required this.text,
+    this.width,
+    this.height,
+    this.function,
+    this.padding = EdgeInsets.zero,
+    this.radius = 15.0,
+  });
 
   final double? width, height;
   final double fontSize, radius;
@@ -74,16 +75,16 @@ class _OSJBottomSheetState extends State<OSJBottomSheet> {
     if (isEnableNotification) {
       switch (state) {
         case CurrentState.smooth:
-          return "${widget.deviceId}번 ${widget.machine.text}를\n알림 설정 하실건가요?";
+          return "${widget.machine.text}의 혼잡도가\n${widget.state.text}이 되면 알림을 전송할까요?";
         case CurrentState.common:
-          return "${widget.deviceId}번 ${widget.machine.text}는\n현재 사용 가능한 상태에요.";
+          return "${widget.machine.text}의 혼잡도가\n${widget.state.text}이 되면 알림을 전송할까요?";
         case CurrentState.confusion:
-          return "${widget.deviceId}번 ${widget.machine.text}의 연결이 끊겨서\n상태를 확인할 수 없어요.";
+          return "${widget.machine.text}의 혼잡도가\n${widget.state.text}이 되면 알림을 전송할까요?";
         case CurrentState.veryconfusion:
-          return "${widget.deviceId}번 ${widget.machine.text}는\n고장으로 인해 사용이 불가능해요.";
+          return "${widget.machine.text}의 혼잡도가\n${widget.state.text}이 되면 알림을 전송할까요?";
       }
     } else {
-      return "${widget.deviceId}번 ${widget.machine.text}의\n알림 설정을 해제하실건가요?";
+      return "${widget.machine.text}의 ${widget.state.text}\n알림 설정을 해제하실건가요?";
     }
   }
 
@@ -105,7 +106,9 @@ class _OSJBottomSheetState extends State<OSJBottomSheet> {
         decoration: const BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(20.0), topRight: Radius.circular(20.0)),
+            topLeft: Radius.circular(20.0),
+            topRight: Radius.circular(20.0),
+          ),
         ),
         child: Wrap(
           children: [
@@ -122,68 +125,71 @@ class _OSJBottomSheetState extends State<OSJBottomSheet> {
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 22.0.sp,
-                        fontWeight: FontWeight.w600,
+                          fontFamily: "NotoSansKR",
+                          fontWeight: FontWeight.w600
                       ),
                     ),
                   ],
                 ),
               ),
             ),
-            widget.state.isWorking
+            widget.state.isWorking || widget.state.isAvailable || widget.state.isDisconnected || widget.state.isBreakdown
                 ? Row(
-                    children: [
-                      Expanded(
-                        child: OSJTextButton(
-                            function: () {
-                              Navigator.of(context).pop();
-                              context
-                                  .read<RoomBloc>()
-                                  .add(ClosingBottomSheetEvent());
-                            },
-                            fontSize: 14.0.sp,
-                            color: Colors.grey,
-                            fontColor: Colors.black,
-                            padding: EdgeInsets.symmetric(vertical: 15.0.r),
-                            text: "취소"),
-                      ),
-                      SizedBox(width: 16.0.r),
-                      Expanded(
-                        child: OSJTextButton(
-                            function: () {
-                              widget.isEnableNotification
-                                  ? context.read<ApplyBloc>().add(SendFCMEvent(
-                                      deviceId: widget.deviceId,
-                                      deviceType: widget.machine))
-                                  : context
-                                      .read<ApplyBloc>()
-                                      .add(ApplyCancelEvent(
-                                        deviceId: widget.deviceId,
-                                      ));
-                              context
-                                  .read<RoomBloc>()
-                                  .add(ClosingBottomSheetEvent());
-                              Navigator.pop(context);
-                            },
-                            fontSize: 14.0.sp,
-                            color: Color(0xff6ACC64),
-                            fontColor: Colors.white,
-                            padding: EdgeInsets.symmetric(vertical: 15.0.r),
-                            text: widget.isEnableNotification
-                                ? "알림 설정"
-                                : "알림 해제"),
-                      ),
-                    ],
-                  )
-                : OSJTextButton(
+              children: [
+                Expanded(
+                  child: OSJTextButton(
                     function: () {
-                      ClosingBottomSheetEvent();
                       Navigator.of(context).pop();
+                      context.read<RoomBloc>().add(ClosingBottomSheetEvent());
                     },
-                    fontSize: 16.0.sp,
-                    color: Colors.white,
+                    fontSize: 14.0.sp,
+                    color: Color(0xffEBEBEB),
                     fontColor: Colors.black,
                     padding: EdgeInsets.symmetric(vertical: 15.0.r),
-                    text: "확인"),
+                    text: "취소",
+                  ),
+                ),
+                SizedBox(width: 16.0.r),
+                Expanded(
+                  child: OSJTextButton(
+                    function: () {
+                      widget.isEnableNotification
+                          ? context.read<ApplyBloc>().add(SetConfusionEvent(
+                          roomId: widget.deviceId,
+                          confusionLevel: widget.state==CurrentState.smooth ? 1 :widget.state==CurrentState.common ? 2 : widget.state==CurrentState.confusion ? 3 : 4 ))
+                          : context
+                          .read<ApplyBloc>()
+                          .add(SetConfusionEvent(
+                        roomId: widget.deviceId,
+                        confusionLevel: 0
+                      ));
+                      context
+                          .read<RoomBloc>()
+                          .add(ClosingBottomSheetEvent());
+                      Navigator.pop(context);
+                    },
+                    fontSize: 14.0.sp,
+                    color: Color(0xff30DB2C),
+                    fontColor: Colors.white,
+                    padding: EdgeInsets.symmetric(vertical: 15.0.r),
+                    text: widget.isEnableNotification
+                        ? "확인"
+                        : "알림 해제",
+                  ),
+                ),
+              ],
+            )
+                : OSJTextButton(
+              function: () {
+                context.read<RoomBloc>().add(ClosingBottomSheetEvent());
+                Navigator.of(context).pop();
+              },
+              fontSize: 16.0.sp,
+              color: Colors.white,
+              fontColor: Colors.black,
+              padding: EdgeInsets.symmetric(vertical: 15.0.r),
+              text: "확인",
+            ),
           ],
         ),
       ),

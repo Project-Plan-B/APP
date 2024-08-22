@@ -10,4 +10,19 @@ class NoticeEntity {
     required this.writing,
     this.content,
   });
+
+  // copyWith 메서드 추가
+  NoticeEntity copyWith({
+    int? noticeId,
+    String? title,
+    String? writing,
+    String? content,
+  }) {
+    return NoticeEntity(
+      noticeId: noticeId ?? this.noticeId,
+      title: title ?? this.title,
+      writing: writing ?? this.writing,
+      content: content ?? this.content,
+    );
+  }
 }

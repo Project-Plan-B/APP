@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:plan_b/main.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart' as screenUtil;
 import 'package:plan_b/src/pages/study_page/ui/widget/machine_button.dart';
 import 'package:plan_b/src/pages/study_page/bloc/study_bloc.dart';
 import 'package:plan_b/src/pages/study_page/bloc/study_model.dart';
@@ -108,9 +108,7 @@ class _gaonState extends State<gaon> with SingleTickerProviderStateMixin {
   Widget build(BuildContext context) {
     return BlocBuilder<RoomBloc, RoomState<LaundryRoomModel>>(
       builder: (context, roomBlocState) {
-        return switch (roomBlocState) {
-          Initial() => const Center(child: CircularProgressIndicator()),
-          Changed() => Scaffold(
+        return Scaffold(
             backgroundColor: Color(0xFFF1F3F0),
             appBar: AppBar(
               backgroundColor: Color(0xFFF1F3F0),
@@ -130,7 +128,8 @@ class _gaonState extends State<gaon> with SingleTickerProviderStateMixin {
                 style: TextStyle(
                   fontSize: 20.0.sp,
                   color: Colors.black,
-                  fontWeight: FontWeight.bold,
+                  fontFamily: "NotoSansKR",
+                  fontWeight: FontWeight.w700,
                 ),
               ),
               titleSpacing: 5,
@@ -198,29 +197,66 @@ class _gaonState extends State<gaon> with SingleTickerProviderStateMixin {
                     ],
                   ),
                 ),
+                SizedBox(
+                  height: 20.h,
+                ),
                 Expanded(
-                  child:
-                  BlocBuilder<LaundryBloc, LaundryState<LaundryModel>>(
-                    builder: (context, state) {
-                      return switch (state) {
-                        Empty() => const Center(child: Text("비어있음")),
-                        Loading() =>
-                        const Center(child: CircularProgressIndicator()),
-                        Error() =>
-                        const Center(child: Text("인터넷 연결을 확인해주세요")),
-                        Loaded() =>
-                            LaundryList(
-                              list: state.data.laundryList,
-                              laundryRoomModel: roomBlocState.value,
+                  child: ScrollConfiguration(
+                    behavior: const ScrollBehavior().copyWith(overscroll: false),
+                    child: ListView.builder(
+                      itemCount: 1,
+                      itemBuilder: (context, index) {
+                        return Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center, // MainAxisAlignment 조정
+                              children: [
+                                MachineButton(
+                                  laundryEntity: LaundryEntity(
+                                    id: 11,
+                                    deviceType: DeviceType.gaon,
+                                    state: CurrentState.smooth,
+                                  ),
+                                  isEnableNotification: true,
+                                ),
+                                SizedBox(width: 40.w), // 간격을 줄이기 위해 추가
+                                MachineButton(
+                                  laundryEntity: LaundryEntity(
+                                    id: 11,
+                                    deviceType: DeviceType.gaon,
+                                    state: CurrentState.common,
+                                  ),
+                                  isEnableNotification: true,
+                                ),
+                                SizedBox(width: 40.w), // 간격을 줄이기 위해 추가
+                                MachineButton(
+                                  laundryEntity: LaundryEntity(
+                                    id: 11,
+                                    deviceType: DeviceType.gaon,
+                                    state: CurrentState.confusion,
+                                  ),
+                                  isEnableNotification: true,
+                                ),
+                                SizedBox(width: 40.w), // 간격을 줄이기 위해 추가
+                                MachineButton(
+                                  laundryEntity: LaundryEntity(
+                                    id: 11,
+                                    deviceType: DeviceType.gaon,
+                                    state: CurrentState.veryconfusion,
+                                  ),
+                                  isEnableNotification: true,
+                                ),
+                              ],
                             ),
-                      };
-                    },
+                          ],
+                        );
+                      },
+                    ),
                   ),
                 ),
               ],
             ),
-          ),
-        };
+          );
       },
     );
   }

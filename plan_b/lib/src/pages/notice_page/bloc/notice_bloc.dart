@@ -12,20 +12,22 @@ class NoticeBloc extends Bloc<NoticeEvent, NoticeState<NoticeModel>> {
   final GetLastNoticeIdUseCase _getLastNoticeIdUseCase;
   final UpdateLastNoticeIdUseCase _updateLastNoticeIdUseCase;
 
-  NoticeBloc(
-      {required GetNoticeUseCase getNoticeUseCase,
-        required GetLastNoticeIdUseCase getLastNoticeIdUseCase,
-        required UpdateLastNoticeIdUseCase updateLastNoticeIdUseCase})
-      : _getNoticeUseCase = getNoticeUseCase,
+  NoticeBloc({
+    required GetNoticeUseCase getNoticeUseCase,
+    required GetLastNoticeIdUseCase getLastNoticeIdUseCase,
+    required UpdateLastNoticeIdUseCase updateLastNoticeIdUseCase,
+  })  : _getNoticeUseCase = getNoticeUseCase,
         _getLastNoticeIdUseCase = getLastNoticeIdUseCase,
         _updateLastNoticeIdUseCase = updateLastNoticeIdUseCase,
         super(Empty(
-          data: const NoticeModel(
-            noticeList: <NoticeEntity>[],
-            isNewNotice: false,
-          ))) {
+        data: const NoticeModel(
+          noticeList: <NoticeEntity>[],
+          isNewNotice: false,
+        ),
+      )) {
     on<GetNoticeEvent>(_getNoticeEventHandler);
     on<UpdateLastNoticeIdEvent>(_updateLastNoticeIdEventHandler);
+    on<GetNoticeDetailEvent>(_getNoticeDetailEventHandler);
   }
 
   void _getNoticeEventHandler(
@@ -50,6 +52,33 @@ class NoticeBloc extends Bloc<NoticeEvent, NoticeState<NoticeModel>> {
       emit(Loaded(data: state.value.copyWith(isNewNotice: false)));
     } catch (e) {
       emit(Error(error: e));
+    }
+  }
+
+  void _getNoticeDetailEventHandler(GetNoticeDetailEvent event,
+      Emitter<NoticeState<NoticeModel>> emit) async {
+    try {
+      print('Fetching notice detail for ID: ${event.noticeId}');
+
+      // Loading 상태로 재진입하지 않도록 기존 emit(Loading()); 제거
+      final content = await _getNoticeUseCase.getNoticeDetail(event.noticeId);
+
+      // Null 체크
+      if (content == null) {
+        throw Exception('Content is null');
+      }
+
+      final updatedList = state.value.noticeList.map((notice) {
+        if (notice.noticeId == event.noticeId) {
+          return notice.copyWith(content: content);
+        }
+        return notice;
+      }).toList();
+
+      emit(Loaded(data: state.value.copyWith(noticeList: updatedList)));
+    } catch (e) {
+      print('Error fetching notice detail: $e');
+      emit(Error(error: e.toString()));
     }
   }
 }

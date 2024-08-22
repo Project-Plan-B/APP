@@ -1,28 +1,18 @@
-import 'package:plan_b/src/data/home/dto/request/get_home_list_request.dart';
-import 'package:plan_b/main.dart';
+import 'package:plan_b/src/domain/home/entity/home_entity.dart';
 
 abstract class ApplyEvent {}
 
-class GetApplyListEvent extends ApplyEvent {
-  final GetApplyListRequest getApplyListRequest;
-
-  GetApplyListEvent({required this.getApplyListRequest});
-}
+class GetApplyListEvent extends ApplyEvent {}
 
 class ApplyCancelEvent extends ApplyEvent {
   final int deviceId;
 
-  ApplyCancelEvent({
-    required this.deviceId,
-  });
+  ApplyCancelEvent({required this.deviceId});
 }
 
-class SendFCMEvent extends ApplyEvent {
-  final int deviceId;
-  final DeviceType deviceType;
+class SetConfusionEvent extends ApplyEvent {
+  final int roomId;
+  final int confusionLevel;
 
-  SendFCMEvent({
-    required this.deviceId,
-    required this.deviceType,
-  });
+  SetConfusionEvent({required this.roomId, required this.confusionLevel});
 }

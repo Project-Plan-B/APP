@@ -41,7 +41,8 @@ class _SettingPageState extends State<SettingPage> {
           style: TextStyle(
             fontSize: 24.0.sp,
             color: Colors.black,
-            fontWeight: FontWeight.bold,
+            fontFamily: "NotoSansKR",
+            fontWeight: FontWeight.w700,
           ),
         ),
       ),
@@ -72,7 +73,11 @@ class _SettingPageState extends State<SettingPage> {
                   Flexible(
                     child: Text(
                       "메인 공간 설정",
-                      style: TextStyle(fontSize: 18.0.sp),
+                      style: TextStyle(
+                        fontSize: 18.0.sp,
+                        fontFamily: "NotoSansKR",
+                        fontWeight: FontWeight.w500,
+                      ),
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
@@ -95,7 +100,11 @@ class _SettingPageState extends State<SettingPage> {
                 children: [
                   Text(
                     "문의하기",
-                    style: TextStyle(fontSize: 18.0.sp),
+                    style: TextStyle(
+                      fontSize: 18.0.sp,
+                      fontFamily: "NotoSansKR",
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                   Icon(
                     Icons.keyboard_arrow_right,

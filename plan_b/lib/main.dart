@@ -13,7 +13,7 @@ import 'package:plan_b/src/splash_page/ui/view/splash_page.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setSystemUIOverlayStyle(
-    const SystemUiOverlayStyle(statusBarColor: Colors.white),
+    const SystemUiOverlayStyle(statusBarColor: Color(0xffECFFEB)),
   );
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   await Hive.initFlutter();
@@ -34,7 +34,7 @@ class App extends StatelessWidget{
       child: ScreenUtilInit(
         designSize: const Size(430, 932),
         builder: (context, child) {
-          fcmInit(context);
+          FlutterLocalNotification.init();
           return MaterialApp(
             theme: ThemeData(
               splashColor: Colors.transparent,
@@ -52,12 +52,12 @@ class App extends StatelessWidget{
 enum CurrentState {
   smooth(
       color: Colors.green,
-      deepColor: Colors.lightGreenAccent,
+      deepColor: Color(0xff30DB2C),
       deviceIconColor: Colors.lightGreen,
       text: "원활"),
   common(
       color: Colors.yellow,
-      deepColor: Colors.yellowAccent,
+      deepColor: Color(0xffFFB342),
       deviceIconColor: Colors.yellow,
       text: "보통"),
   confusion(
@@ -94,8 +94,8 @@ enum DeviceType {
   gaon(
     text: "1층 가온실",
   ),
-  naon(
-    text: "1층 나온실",
+  daon(
+    text: "1층 다온실",
   ),
   empty(
     text: "",

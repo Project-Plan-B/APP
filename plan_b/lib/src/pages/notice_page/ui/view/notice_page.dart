@@ -31,7 +31,8 @@ class NoticePage extends StatelessWidget {
           style: TextStyle(
             fontSize: 24.0.sp,
             color: Colors.black,
-            fontWeight: FontWeight.bold,
+            fontFamily: "NotoSansKR",
+            fontWeight: FontWeight.w700,
           ),
         ),
       ),

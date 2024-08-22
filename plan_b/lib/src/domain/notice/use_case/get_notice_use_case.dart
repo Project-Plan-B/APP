@@ -8,4 +8,7 @@ class GetNoticeUseCase {
       : _noticeRepository = noticeRepository;
 
   Future<List<NoticeEntity>> execute() => _noticeRepository.getNotices();
+
+  // 여기에 getNoticeDetail 메서드를 추가합니다.
+  Future<String?> getNoticeDetail(int id) => _noticeRepository.getNoticeDetail(id);
 }

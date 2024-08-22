@@ -5,7 +5,7 @@ import 'package:plan_b/src/domain/notice/entity/notice_entity.dart';
 
 class RemoteNoticeDataSource {
   Future<List<NoticeEntity>> getNotices() async {
-    final response = await http.get(Uri.parse("http://192.168.54.52:8080/list/show_all"));
+    final response = await http.get(Uri.parse("https://019e4e50-79e8-48c6-9924-619988781875.mock.pstmn.io/list/show_all"));
 
     if (response.statusCode != 200) {
       throw Exception('Failed to load notices');
@@ -19,15 +19,15 @@ class RemoteNoticeDataSource {
   }
 
   Future<String> getNoticeDetail(int id) async {
-    final response = await http.get(Uri.parse("http://192.168.54.52:8080/list/show/$id"));
+    final response = await http.get(Uri.parse("https://019e4e50-79e8-48c6-9924-619988781875.mock.pstmn.io/list/show/$id"));
 
     if (response.statusCode != 200) {
       throw Exception('Failed to load notice detail');
     }
 
     final Map<String, dynamic> data = jsonDecode(utf8.decode(response.bodyBytes));
+    print('Received data: $data');
 
-    // 공지사항의 내용만 반환
     return data['content'] as String;
   }
 }

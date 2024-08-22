@@ -1,67 +1,101 @@
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'dart:io';
+
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:plan_b/src/data/home/dto/request/get_home_list_request.dart';
-import 'package:plan_b/src/pages/home_page/bloc/home_bloc.dart';
-import 'package:plan_b/src/pages/home_page/bloc/home_event.dart';
+import 'dart:async';
 
-void fcmInit(BuildContext context) async {
-  await FirebaseMessaging.instance.requestPermission(
-      alert: true,
-      announcement: true,
-      badge: true,
-      carPlay: true,
-      criticalAlert: true,
-      provisional: true,
-      sound: true);
-  await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
-      alert: true, badge: true, sound: true);
-  const AndroidNotificationChannel channel = AndroidNotificationChannel(
-    'high_importance_channel',
-    'High Importance Notifications',
-    description: 'This channel is used for important notifications.',
-    importance: Importance.max,
-  );
-  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-      FlutterLocalNotificationsPlugin();
-  await flutterLocalNotificationsPlugin
-      .resolvePlatformSpecificImplementation<
-          AndroidFlutterLocalNotificationsPlugin>()
-      ?.createNotificationChannel(channel);
-  await flutterLocalNotificationsPlugin.initialize(
-    const InitializationSettings(
-      android: AndroidInitializationSettings('@mipmap/launcher_icon'),
-      iOS: DarwinInitializationSettings(),
-    ),
-  );
-  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-  FirebaseMessaging.onMessage.listen(
-    (RemoteMessage message) {
-      BlocProvider.of<ApplyBloc>(context)
-          .add(GetApplyListEvent(getApplyListRequest: GetApplyListRequest()));
-      RemoteNotification? notification = message.notification;
-      AndroidNotification? android = message.notification?.android;
-      if (notification != null && android != null) {
-        flutterLocalNotificationsPlugin.show(
-          0,
-          notification.title,
-          notification.body,
-          NotificationDetails(
-            android: AndroidNotificationDetails(
-              channel.id,
-              channel.name,
-              channelDescription: channel.description,
-            ),
-          ),
-        );
+import 'package:permission_handler/permission_handler.dart'; // 딜레이를 위해 추가
+
+class FlutterLocalNotification {
+  // 싱글톤 패턴으로 클래스 인스턴스를 생성
+  FlutterLocalNotification._();
+  static final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+  FlutterLocalNotificationsPlugin();
+
+  // 초기화 메서드
+  static Future<void> init() async {
+    const AndroidInitializationSettings androidInitializationSettings =
+    AndroidInitializationSettings('@mipmap/launcher_icon');
+
+    const DarwinInitializationSettings iosInitializationSettings =
+    DarwinInitializationSettings(
+      requestAlertPermission: false,
+      requestBadgePermission: false,
+      requestSoundPermission: false,
+    );
+
+    const AndroidNotificationChannel channel = AndroidNotificationChannel(
+      'high_importance_channel', // 채널 ID
+      'High Importance Notifications', // 채널 이름
+      description: 'This channel is used for important notifications.',
+      importance: Importance.max,
+    );
+
+    // Android에서 알림 채널 생성
+    await flutterLocalNotificationsPlugin
+        .resolvePlatformSpecificImplementation<
+        AndroidFlutterLocalNotificationsPlugin>()
+        ?.createNotificationChannel(channel);
+
+    // 초기화 설정
+    const InitializationSettings initializationSettings =
+    InitializationSettings(
+      android: androidInitializationSettings,
+      iOS: iosInitializationSettings,
+    );
+
+    // 플러그인 초기화
+    await flutterLocalNotificationsPlugin.initialize(initializationSettings);
+
+    if (Platform.isAndroid) {
+      var status = await Permission.notification.status;
+      if (!status.isGranted) {
+        status = await Permission.notification.request();
+        if (status.isGranted) {
+          print('알림 권한이 부여되었습니다.');
+        } else {
+          print('알림 권한이 거부되었습니다.');
+        }
       }
-    },
-  );
-}
+    }
+  }
 
-@pragma('vm:entry-point')
-Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  await Firebase.initializeApp();
+  // iOS 권한 요청
+  static Future<void> requestNotificationPermission() async {
+    await flutterLocalNotificationsPlugin
+        .resolvePlatformSpecificImplementation<
+        IOSFlutterLocalNotificationsPlugin>()
+        ?.requestPermissions(
+      alert: true,
+      badge: true,
+      sound: true,
+    );
+  }
+
+  // 알림 표시 메서드
+  static Future<void> showNotification(String title, String body) async {
+    // 2초 딜레이 추가
+    await Future.delayed(const Duration(seconds: 2));
+
+    const AndroidNotificationDetails androidNotificationDetails =
+    AndroidNotificationDetails(
+      'high_importance_channel', // 채널 ID
+      'High Importance Notifications', // 채널 이름
+      channelDescription: 'This channel is used for important notifications.',
+      importance: Importance.max,
+      priority: Priority.max,
+      showWhen: false,
+    );
+
+    const NotificationDetails notificationDetails = NotificationDetails(
+      android: androidNotificationDetails,
+      iOS: DarwinNotificationDetails(badgeNumber: 1),
+    );
+
+    await flutterLocalNotificationsPlugin.show(
+      0, // 알림 ID
+      title,
+      body,
+      notificationDetails,
+    );
+  }
 }

@@ -77,8 +77,8 @@ class OSJImageButton extends StatelessWidget {
         child: Center(
           child: Image.asset(
             imagePath,
-            width: imageWidth ?? 24.0,
-            height: imageHeight ?? 24.0,
+            width: imageWidth ?? 24.0.r,
+            height: imageHeight ?? 24.0.r,
           ),
         ),
       ),
@@ -158,7 +158,7 @@ class _BottomNaviState extends State<BottomNavi>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFF1F3F0),
+      backgroundColor: Color(0xffF0F3F6),
       body: TabBarView(
         controller: controller,
         children: [
@@ -167,27 +167,27 @@ class _BottomNaviState extends State<BottomNavi>
         ],
       ),
       bottomNavigationBar: TabBar(
-        padding: EdgeInsets.only(top: 10.0, bottom: 30.0),
+        padding: EdgeInsets.only(top: 10.0.h, bottom: 30.0.h),
         dividerColor: Colors.transparent,
         controller: controller,
         indicatorColor: Colors.transparent,
         tabs: [
           OSJIconButton(
-              width: 185.0,
-              height: 48.0,
-              iconSize: 24.0,
+              width: 185.0.w,
+              height: 48.0.h,
+              iconSize: 24.0.r,
               color: selectedIndex == 0
                   ? Colors.white
-                  : Color(0xFFF1F3F0),
+                  : Color(0xffF0F3F6),
               iconColor: selectedIndex == 0
                   ? Color(0xFF27AB00)
                   : Color(0xffADB3BD),
               iconData: Icons.home),
           OSJImageButton(
-            width: 185.0,
-            height: 48.0,
+            width: 185.0.w,
+            height: 48.0.h,
             color:
-            selectedIndex == 1 ? Colors.white : Color(0xFFF1F3F0),
+            selectedIndex == 1 ? Colors.white : Color(0xffF0F3F6),
             imagePath: selectedIndex == 1
                 ? "assets/images/lmetaverse.png"
                 : "assets/images/unmetavers.png",

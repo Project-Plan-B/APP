@@ -11,8 +11,7 @@ import 'package:plan_b/src/data/notice/data_source/local/local_notice_data_sourc
 import 'package:plan_b/src/data/notice/data_source/remote/remote_notice_data_source.dart';
 import 'package:plan_b/src/data/notice/repository/notice_repository_impl.dart';
 import 'package:plan_b/src/domain/home/repository/home_repository.dart';
-import 'package:plan_b/src/domain/home/use_case/home_cancel_use_case.dart';
-import 'package:plan_b/src/domain/home/use_case/get_home_list_use_case.dart';
+import 'package:plan_b/src/domain/home/use_case/set_alert_use_case.dart';
 import 'package:plan_b/src/domain/study/entity/study_entity.dart';
 import 'package:plan_b/src/domain/study/repository/study_repository.dart';
 import 'package:plan_b/src/domain/study/use_case/get_all_study_list_use_case.dart';
@@ -29,7 +28,7 @@ import 'package:plan_b/src/pages/notice_page/bloc/notice_bloc.dart';
 import 'package:plan_b/src/pages/setting_page/bloc/room_bloc.dart';
 
 Future<List<BlocProvider>> di() async {
-  final box = await Hive.openBox<int>("Lotura");
+  final box = await Hive.openBox<int>("PLANB");
 
   LocalLaundryDataSource localLaundryDataSource =
   LocalLaundryDataSource(localDatabase: box);
@@ -47,8 +46,9 @@ Future<List<BlocProvider>> di() async {
       localLaundryDataSource: localLaundryDataSource,
       remoteLaundryDataSource: remoteLaundryDataSource);
 
-  ApplyRepository applyRepository =
-  ApplyRepositoryImpl(remoteApplyDataSource: remoteApplyDataSource);
+  ApplyRepository applyRepository = ApplyRepositoryImpl(
+    remoteApplyDataSource: remoteApplyDataSource,
+  );
 
   NoticeRepository noticeRepository = NoticeRepositoryImpl(
       remoteNoticeDataSource: remoteNoticeDataSource,
@@ -57,11 +57,7 @@ Future<List<BlocProvider>> di() async {
   GetLaundryStatusUseCase getLaundryStatusUseCase =
   GetLaundryStatusUseCase(laundryRepository: laundryRepository);
 
-  GetApplyListUseCase getApplyListUseCase =
-  GetApplyListUseCase(applyRepository: applyRepository);
-
-  ApplyCancelUseCase applyCancelUseCase =
-  ApplyCancelUseCase(applyRepository: applyRepository);
+  SetAlertUseCase setAlertUseCase = SetAlertUseCase(applyRepository);
 
   GetLaundryRoomIndexUseCase getLaundryRoomIndexUseCase =
   GetLaundryRoomIndexUseCase(laundryRepository: laundryRepository);
@@ -84,8 +80,7 @@ Future<List<BlocProvider>> di() async {
   return [
     BlocProvider<ApplyBloc>(
         create: (context) => ApplyBloc(
-            getApplyListUseCase: getApplyListUseCase,
-            applyCancelUseCase: applyCancelUseCase,)),
+          setAlertUseCase: setAlertUseCase,)),
     BlocProvider<LaundryBloc>(
         create: (context) => LaundryBloc(
             getLaundryStatusUseCase: getLaundryStatusUseCase,

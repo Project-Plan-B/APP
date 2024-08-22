@@ -8,14 +8,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:http/http.dart' as http;
 import 'package:plan_b/src/pages/home_page/ui/view/home.dart';
 import 'package:plan_b/src/pages/map.dart';
-import 'package:plan_b/src/data/home/dto/request/get_home_list_request.dart';
+import 'package:plan_b/src/data/home/dto/request/set_alert_request.dart';
 import 'package:plan_b/src/pages/home_page/bloc/home_bloc.dart';
 import 'package:plan_b/src/pages/home_page/bloc/home_event.dart';
 import 'package:plan_b/src/pages/notice_page/bloc/notice_bloc.dart';
 import 'package:plan_b/src/pages/notice_page/bloc/notice_event.dart';
 import 'package:plan_b/src/bottom_navi.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-
+import 'package:plan_b/src/init/fcm_init.dart';
 import '../../../pages/study_page/bloc/study_bloc.dart';
 import '../../../pages/study_page/bloc/study_event.dart';
 
@@ -51,13 +51,13 @@ class _SplashPageState extends State<SplashPage> {
 
   @override
   void initState() {
+    Future.delayed(const Duration(seconds: 3), () {
+      FlutterLocalNotification.requestNotificationPermission();
+    });
     super.initState();
     checkAppVersion();
     context.read<NoticeBloc>().add(GetNoticeEvent());
     context.read<LaundryBloc>().add(GetAllLaundryListEvent());
-    context
-        .read<ApplyBloc>()
-        .add(GetApplyListEvent(getApplyListRequest: GetApplyListRequest()));
     context.read<LaundryBloc>().add(GetLaundryEvent());
   }
 
