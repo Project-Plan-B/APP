@@ -74,7 +74,7 @@ class FlutterLocalNotification {
   // 알림 표시 메서드
   static Future<void> showNotification(String title, String body) async {
     // 2초 딜레이 추가
-    await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 4));
 
     const AndroidNotificationDetails androidNotificationDetails =
     AndroidNotificationDetails(

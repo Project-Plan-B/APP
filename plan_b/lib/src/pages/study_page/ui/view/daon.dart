@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart' as screenUtil;
 import 'package:plan_b/main.dart';
 import 'package:plan_b/src/domain/study/entity/study_entity.dart';
-import 'package:plan_b/src/pages/naon.dart';
+import 'package:plan_b/src/pages/study_page/ui/view/naon.dart';
 import 'package:plan_b/src/pages/study_page/ui/widget/humi_gauge.dart';
 import 'package:plan_b/src/pages/study_page/ui/widget/machine_button.dart';
 import 'package:plan_b/src/pages/setting_page/bloc/laundry_room_model.dart';
@@ -117,25 +117,25 @@ class _daonState extends State<daon> with SingleTickerProviderStateMixin {
                             children: [
                               ColoredBox(color: Color(0xFF30DB2C)),
                               SizedBox(width: 3.0.w),
-                              ColoredBox(color: Color(0xFFFFB342)),
+                              ColoredBox(color: Color(0xFF30DB2C)),
                             ],
                           ),
                           SizedBox(height: 3.0.h),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              ColoredBox(color: Color(0xFFFF4C4C)),
+                              ColoredBox(color: Color(0xFF30DB2C)),
                               SizedBox(width: 3.0.w),
-                              ColoredBox(color: Color(0xFFFFF500)),
+                              ColoredBox(color: Color(0xFF30DB2C)),
                             ],
                           ),
                           SizedBox(height: 3.0.h),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              ColoredBox(color: Color(0xFFFFB342)),
+                              ColoredBox(color: Color(0xFF30DB2C)),
                               SizedBox(width: 3.0.w),
-                              ColoredBox(color: Color(0xFFFF4C4C)),
+                              ColoredBox(color: Color(0xFF30DB2C)),
                             ],
                           ),
                         ],

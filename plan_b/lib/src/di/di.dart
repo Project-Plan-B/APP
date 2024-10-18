@@ -46,9 +46,8 @@ Future<List<BlocProvider>> di() async {
       localLaundryDataSource: localLaundryDataSource,
       remoteLaundryDataSource: remoteLaundryDataSource);
 
-  ApplyRepository applyRepository = ApplyRepositoryImpl(
-    remoteApplyDataSource: remoteApplyDataSource,
-  );
+  ApplyRepository applyRepository =
+  ApplyRepositoryImpl(remoteApplyDataSource: remoteApplyDataSource);
 
   NoticeRepository noticeRepository = NoticeRepositoryImpl(
       remoteNoticeDataSource: remoteNoticeDataSource,

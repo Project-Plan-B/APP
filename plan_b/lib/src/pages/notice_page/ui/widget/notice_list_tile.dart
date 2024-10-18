@@ -90,7 +90,7 @@ class _NoticeListTileState extends State<NoticeListTile> {
                   data: noticeEntity.content!,
                   onTapLink: (text, href, title) async {
                     if (href != null) {
-                      await launchUrl(Uri.parse(href),
+                      await launchUrl(Uri.parse(href!),
                           mode: LaunchMode.externalApplication);
                     }
                   },

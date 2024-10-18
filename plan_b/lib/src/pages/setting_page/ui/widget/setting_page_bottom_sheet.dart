@@ -56,7 +56,7 @@ class SettingPageBottomSheet extends StatelessWidget {
                     currentRoomLocation: state.data.roomLocation,
                   ),
                   CheckButton(
-                    pos: Pos.cafe,
+                    pos: Pos.test,
                     roomLocation: RoomLocation.schoolGirlSide,
                     currentRoomLocation: state.data.roomLocation,
                   ),

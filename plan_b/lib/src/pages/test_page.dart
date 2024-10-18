@@ -18,12 +18,12 @@ import 'package:plan_b/src/pages/study_page/ui/widget/temp_gauge.dart';
 import 'package:plan_b/src/pages/study_page/ui/widget/humi_gauge.dart';
 import 'package:plan_b/src/data/study/data_source/sensor_api_service.dart'; // SensorApiService 추가
 
-class gaon extends StatefulWidget {
+class test extends StatefulWidget {
   @override
-  _gaonState createState() => _gaonState();
+  _testState createState() => _testState();
 }
 
-class _gaonState extends State<gaon> with SingleTickerProviderStateMixin {
+class _testState extends State<test> with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
   late Animation<double> _temperatureAnimation;
   late Animation<double> _humidityAnimation;
@@ -136,7 +136,7 @@ class _gaonState extends State<gaon> with SingleTickerProviderStateMixin {
               ),
             ),
             title: Text(
-              "1층 가온실",
+              "TEST",
               style: TextStyle(
                 fontSize: 20.0.sp,
                 color: Colors.black,
@@ -226,7 +226,7 @@ class _gaonState extends State<gaon> with SingleTickerProviderStateMixin {
                               MachineButton(
                                 laundryEntity: LaundryEntity(
                                   id: 11,
-                                  deviceType: DeviceType.gaon,
+                                  deviceType: DeviceType.test,
                                   state: CurrentState.smooth,
                                 ),
                                 isEnableNotification: true,
@@ -235,7 +235,7 @@ class _gaonState extends State<gaon> with SingleTickerProviderStateMixin {
                               MachineButton(
                                 laundryEntity: LaundryEntity(
                                   id: 11,
-                                  deviceType: DeviceType.gaon,
+                                  deviceType: DeviceType.test,
                                   state: CurrentState.common,
                                 ),
                                 isEnableNotification: true,
@@ -244,7 +244,7 @@ class _gaonState extends State<gaon> with SingleTickerProviderStateMixin {
                               MachineButton(
                                 laundryEntity: LaundryEntity(
                                   id: 11,
-                                  deviceType: DeviceType.gaon,
+                                  deviceType: DeviceType.test,
                                   state: CurrentState.confusion,
                                 ),
                                 isEnableNotification: true,
@@ -253,7 +253,7 @@ class _gaonState extends State<gaon> with SingleTickerProviderStateMixin {
                               MachineButton(
                                 laundryEntity: LaundryEntity(
                                   id: 11,
-                                  deviceType: DeviceType.gaon,
+                                  deviceType: DeviceType.test,
                                   state: CurrentState.veryconfusion,
                                 ),
                                 isEnableNotification: true,
@@ -360,5 +360,5 @@ class LaundryList extends StatelessWidget {
 }
 
 void main() {
-  runApp(gaon());
+  runApp(test());
 }

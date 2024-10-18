@@ -66,7 +66,7 @@ class Home extends StatelessWidget {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => const NoticePage()));
               },
-              icon: /*BlocBuilder<NoticeBloc, n.NoticeState<NoticeModel>>(
+              icon: BlocBuilder<NoticeBloc, n.NoticeState<NoticeModel>>(
                 builder: (context, state) => state.value.isNewNotice
                     ? Stack(
                       alignment: Alignment.topRight,
@@ -86,13 +86,13 @@ class Home extends StatelessWidget {
                         ),
                       ],
                     )
-                  : */Icon(
+                  : Icon(
                     Icons.notifications,
                     color: Colors.black,
                     size: 24.0.r,
                   ),
               ),
-            //),
+            ),
             IconButton(
                 onPressed: () => Navigator.push(context,
                     MaterialPageRoute(builder: (context) => const SettingPage())),
@@ -131,6 +131,81 @@ class Home extends StatelessWidget {
                 ],
               ),
             ),
+            SizedBox(
+              height: 30,
+            ),
+            Expanded(
+              child: BlocBuilder<ApplyBloc, ApplyState<ApplyModel>>(
+                builder: (context, state) {
+                  return switch (state) {
+                    Empty() => const Center(child: Text("비어있음")),
+                    Loading() =>
+                    const Center(child: CircularProgressIndicator()),
+                    Error() => const Center(child: Text("인터넷 연결을 확인해주세요")),
+                    Loaded() => ScrollConfiguration(
+                      behavior:
+                      const ScrollBehavior().copyWith(overscroll: false),
+                      child: ListView.builder(
+                        itemCount: state.value.applyList.length.isEven
+                            ? state.value.applyList.length ~/ 2
+                            : state.value.applyList.length ~/ 2 + 1,
+                        itemBuilder: (context, index) {
+                          return Column(
+                            children: [
+                              Row(
+                                mainAxisAlignment:
+                                MainAxisAlignment.spaceAround,
+                                children: [
+                                  MachineCard(
+                                      deviceId: state.value
+                                          .applyList[index * 2].deviceId,
+                                      isEnableNotification: false,
+                                      deviceType: state.value
+                                          .applyList[index * 2].deviceType,
+                                      state: CurrentState.smooth),
+                                  index * 2 + 1 < state.value.applyList.length
+                                      ? MachineCard(
+                                      deviceId: state
+                                          .value
+                                          .applyList[index * 2 + 1]
+                                          .deviceId,
+                                      isEnableNotification: false,
+                                      deviceType: state
+                                          .value
+                                          .applyList[index * 2 + 1]
+                                          .deviceType,
+                                      state: CurrentState.smooth)
+                                      : const MachineCard(
+                                    //리팩토링 꼭 하기
+                                      deviceId: -1,
+                                      isEnableNotification: false,
+                                      deviceType: DeviceType.empty,
+                                      state: CurrentState.smooth)
+                                ],
+                              ),
+                              SizedBox(height: 20.0.r),
+                            ],
+                          );
+                        },
+                      ),
+                    ),
+                  };
+                },
+              ),
+            ),
+            TextButton(
+              onPressed: () async {
+                await FlutterLocalNotification.showNotification(
+                  "혼잡도 알림",
+                  "현재 자습실이 원하는 혼잡도 상태가 되었습니다.",
+                );
+              },
+              child: Text(
+                "",
+                style: TextStyle(fontSize: 16.0.sp),
+              ),
+            ),
+
             SizedBox(height: 25.0.h),
           ],
         ),

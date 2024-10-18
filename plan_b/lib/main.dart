@@ -97,11 +97,16 @@ enum DeviceType {
   daon(
     text: "1층 다온실",
   ),
+  test(
+    text: "TEST ",
+  ),
   empty(
     text: "",
   );
 
   bool get isWash => this == DeviceType.gaon;
+
+  bool get istest => this == DeviceType.test;
 
   bool get isEmpty => this == DeviceType.empty;
 
@@ -114,11 +119,11 @@ enum DeviceType {
 
 enum Pos {
   school(text: "학교"),
-  cafe(text: "스터디 카페");
+  test(text: "TEST");
 
   bool get isBoy => this == Pos.school;
 
-  bool get isGirl => this == Pos.cafe;
+  bool get isGirl => this == Pos.test;
 
   const Pos({required this.text});
 
