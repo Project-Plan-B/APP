@@ -2,9 +2,10 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:plan_b/src/data/home/dto/response/set_alert_response.dart';
 import 'package:plan_b/src/init/fcm_init.dart';
+import 'package:plan_b/src/polling_service.dart';
 
 class RemoteApplyDataSource {
-  final String baseUrl = "http://192.168.224.52:8080";
+  final String baseUrl = "http://172.26.10.52:8080";
 
   RemoteApplyDataSource() {
     FlutterLocalNotification.init(); // 알림 초기화
@@ -22,8 +23,8 @@ class RemoteApplyDataSource {
     if (response.statusCode == 200) {
       // 200 응답 시 알림을 표시
       FlutterLocalNotification.showNotification(
-        "혼잡도 변경 성공",
-        "혼잡도가 성공적으로 변경되었습니다.",
+        "혼잡도 알림",
+        "공간의 혼잡도가 원하는 혼잡도로 변경되었습니다.",
       );
       return SetAlertResponse.fromJson(jsonDecode(response.body));
     } else if (response.statusCode == 201) {

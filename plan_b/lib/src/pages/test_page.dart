@@ -225,8 +225,8 @@ class _testState extends State<test> with SingleTickerProviderStateMixin {
                             children: [
                               MachineButton(
                                 laundryEntity: LaundryEntity(
-                                  id: 11,
-                                  deviceType: DeviceType.test,
+                                  id: 10,
+                                  roomName: RoomName.test,
                                   state: CurrentState.smooth,
                                 ),
                                 isEnableNotification: true,
@@ -234,8 +234,8 @@ class _testState extends State<test> with SingleTickerProviderStateMixin {
                               SizedBox(width: 40.w), // 간격을 줄이기 위해 추가
                               MachineButton(
                                 laundryEntity: LaundryEntity(
-                                  id: 11,
-                                  deviceType: DeviceType.test,
+                                  id: 10,
+                                  roomName: RoomName.test,
                                   state: CurrentState.common,
                                 ),
                                 isEnableNotification: true,
@@ -243,8 +243,8 @@ class _testState extends State<test> with SingleTickerProviderStateMixin {
                               SizedBox(width: 40.w), // 간격을 줄이기 위해 추가
                               MachineButton(
                                 laundryEntity: LaundryEntity(
-                                  id: 11,
-                                  deviceType: DeviceType.test,
+                                  id: 10,
+                                  roomName: RoomName.test,
                                   state: CurrentState.confusion,
                                 ),
                                 isEnableNotification: true,
@@ -252,8 +252,8 @@ class _testState extends State<test> with SingleTickerProviderStateMixin {
                               SizedBox(width: 40.w), // 간격을 줄이기 위해 추가
                               MachineButton(
                                 laundryEntity: LaundryEntity(
-                                  id: 11,
-                                  deviceType: DeviceType.test,
+                                  id: 10,
+                                  roomName: RoomName.test,
                                   state: CurrentState.veryconfusion,
                                 ),
                                 isEnableNotification: true,
@@ -322,7 +322,7 @@ class LaundryList extends StatelessWidget {
               deviceId: 1,
               isEnableNotification: true,
               state: list[1].state,
-              machine: list[1].deviceType,
+              machine: list[1].roomName,
             ),
           );
         }

@@ -7,7 +7,10 @@ import 'package:plan_b/src/init/fcm_init.dart';
 import 'package:plan_b/src/di/di.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:plan_b/src/pages/home_page/ui/view/home.dart';
+import 'package:plan_b/src/polling_service.dart';
 import 'package:plan_b/src/splash_page/ui/view/splash_page.dart';
+import 'package:provider/provider.dart';
 
 
 void main() async {
@@ -30,7 +33,10 @@ class App extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
-      providers: blocList,
+      providers: [
+        ...blocList, // BLoC 리스트 추가
+        ChangeNotifierProvider(create: (_) => PollingService()), // PollingService 추가
+      ],
       child: ScreenUtilInit(
         designSize: const Size(430, 932),
         builder: (context, child) {
@@ -90,29 +96,29 @@ enum CurrentState {
   });
 }
 
-enum DeviceType {
+enum RoomName {
   gaon(
-    text: "1층 가온실",
+    text: "가온실",
   ),
   daon(
-    text: "1층 다온실",
+    text: "다온실",
   ),
   test(
-    text: "TEST ",
+    text: "TEST",
   ),
   empty(
     text: "",
   );
 
-  bool get isWash => this == DeviceType.gaon;
+  bool get isgaon => this == RoomName.gaon;
 
-  bool get istest => this == DeviceType.test;
+  bool get istest => this == RoomName.test;
 
-  bool get isEmpty => this == DeviceType.empty;
+  bool get isEmpty => this == RoomName.empty;
 
   final String text;
 
-  const DeviceType({
+  const RoomName({
     required this.text,
   });
 }

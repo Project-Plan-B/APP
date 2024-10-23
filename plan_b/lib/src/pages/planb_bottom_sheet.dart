@@ -6,6 +6,7 @@ import 'package:plan_b/src/pages/home_page/bloc/home_bloc.dart';
 import 'package:plan_b/src/pages/home_page/bloc/home_event.dart';
 import 'package:plan_b/src/pages/setting_page/bloc/room_bloc.dart';
 import 'package:plan_b/src/pages/setting_page/bloc/room_event.dart';
+import 'package:plan_b/src/polling_service.dart';
 
 class OSJTextButton extends StatelessWidget {
   const OSJTextButton({
@@ -64,7 +65,7 @@ class OSJBottomSheet extends StatefulWidget {
   final int deviceId;
   final bool isEnableNotification;
   final CurrentState state;
-  final DeviceType machine;
+  final RoomName machine;
 
   @override
   State<OSJBottomSheet> createState() => _OSJBottomSheetState();
@@ -125,15 +126,18 @@ class _OSJBottomSheetState extends State<OSJBottomSheet> {
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 22.0.sp,
-                          fontFamily: "NotoSansKR",
-                          fontWeight: FontWeight.w600
+                        fontFamily: "NotoSansKR",
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
                   ],
                 ),
               ),
             ),
-            widget.state.isWorking || widget.state.isAvailable || widget.state.isDisconnected || widget.state.isBreakdown
+            widget.state.isWorking ||
+                widget.state.isAvailable ||
+                widget.state.isDisconnected ||
+                widget.state.isBreakdown
                 ? Row(
               children: [
                 Expanded(
@@ -143,7 +147,7 @@ class _OSJBottomSheetState extends State<OSJBottomSheet> {
                       context.read<RoomBloc>().add(ClosingBottomSheetEvent());
                     },
                     fontSize: 14.0.sp,
-                    color: Color(0xffEBEBEB),
+                    color: const Color(0xffEBEBEB),
                     fontColor: Colors.black,
                     padding: EdgeInsets.symmetric(vertical: 15.0.r),
                     text: "취소",
@@ -153,30 +157,34 @@ class _OSJBottomSheetState extends State<OSJBottomSheet> {
                 Expanded(
                   child: OSJTextButton(
                     function: () {
-                      widget.isEnableNotification
-                          ? context.read<ApplyBloc>().add(SetConfusionEvent(
-                          roomId: widget.deviceId,
-                          confusionLevel: widget.state==CurrentState.smooth ? 1 :widget.state==CurrentState.common ? 2 : widget.state==CurrentState.confusion ? 3 : 4 ))
-                          : context
-                          .read<ApplyBloc>()
-                          .add(SetConfusionEvent(
-                        roomId: widget.deviceId,
-                        confusionLevel: 0
-                      ));
-                      context
-                          .read<RoomBloc>()
-                          .add(ClosingBottomSheetEvent());
+                      if (widget.isEnableNotification) {
+                        context.read<ApplyBloc>().add(SetConfusionEvent(
+                            roomId: widget.deviceId,
+                            confusionLevel: widget.state == CurrentState.smooth ? 1
+                                : widget.state == CurrentState.common ? 2
+                                : widget.state == CurrentState.confusion ? 3 : 4
+                        ));
+                        context.read<PollingService>().startPolling(
+                            context,widget.deviceId, widget.state == CurrentState.smooth ? 1 : widget.state == CurrentState.common ? 2 : widget.state == CurrentState.confusion ? 3:4
+                        );
+                      } else {
+                        context.read<ApplyBloc>().add(SetConfusionEvent(
+                            roomId: widget.deviceId,
+                            confusionLevel: 0
+                        ));
+                        context.read<PollingService>().stopPolling();
+                      }
+                      context.read<RoomBloc>().add(ClosingBottomSheetEvent());
                       Navigator.pop(context);
                     },
                     fontSize: 14.0.sp,
-                    color: Color(0xff30DB2C),
+                    color: widget.isEnableNotification ? Color(0xff30DB2C) : Colors.red,
                     fontColor: Colors.white,
                     padding: EdgeInsets.symmetric(vertical: 15.0.r),
-                    text: widget.isEnableNotification
-                        ? "확인"
-                        : "알림 해제",
+                    text: widget.isEnableNotification ? "확인" : "알림 해제",
                   ),
                 ),
+
               ],
             )
                 : OSJTextButton(

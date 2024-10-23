@@ -24,11 +24,11 @@ class LaundryResponse {
     return LaundryEntity(
       id: id,
       state: CurrentState.values.elementAt(state),
-      deviceType: deviceType == "GAON"
-          ? DeviceType.gaon
+      roomName: deviceType == "GAON"
+          ? RoomName.gaon
           : deviceType == "DAON"
-              ? DeviceType.daon
-              : DeviceType.empty,
+              ? RoomName.daon
+              : RoomName.empty,
     );
   }
 }

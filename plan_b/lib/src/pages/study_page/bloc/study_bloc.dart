@@ -30,7 +30,7 @@ class LaundryBloc extends Bloc<LaundryEvent, LaundryState<LaundryModel>> {
                     ? LaundryEntity(
                         id: e.id,
                         state: data.state,
-                        deviceType: data.deviceType)
+                        roomName: data.roomName)
                     : e)
                 .toList());
         emit(Loaded(data: newLaundryModel));

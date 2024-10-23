@@ -13,7 +13,7 @@ class MachineButton extends MachineWidget{
     required super.isEnableNotification,
   }) : super(
     deviceId: laundryEntity.id,
-    deviceType: laundryEntity.deviceType,
+    roomName: laundryEntity.roomName,
     state: laundryEntity.state,
   );
 

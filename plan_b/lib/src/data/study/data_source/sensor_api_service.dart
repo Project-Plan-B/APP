@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class SensorApiService {
-  final String baseUrl = 'http://192.168.206.52:8080';
+  final String baseUrl = 'http://172.26.10.52:8080';
 
   Future<Map<String, dynamic>> fetchSensorData() async {
     final response = await http.get(Uri.parse('$baseUrl/other/send'));

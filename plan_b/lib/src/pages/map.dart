@@ -170,7 +170,7 @@ class _MapState extends State<Map> {
                                         Navigator.push(
                                           context, MaterialPageRoute(
                                             builder: (
-                                                context) => const five()),);
+                                                context) => five()),);
                                       },
                                       child: Text("학교측"),
                                       style: OutlinedButton.styleFrom(
@@ -212,7 +212,7 @@ class _MapState extends State<Map> {
                                         Navigator.push(
                                           context, MaterialPageRoute(
                                             builder: (
-                                                context) => const fours()),);
+                                                context) => fours()),);
                                       },
                                       child: Text("학교측"),
                                       style: OutlinedButton.styleFrom(
@@ -237,7 +237,7 @@ class _MapState extends State<Map> {
                                         Navigator.push(
                                           context, MaterialPageRoute(
                                             builder: (
-                                                context) => const fourg()),);
+                                                context) => fourg()),);
                                       },
                                       child: Text("기숙사측"),
                                       style: OutlinedButton.styleFrom(
@@ -279,7 +279,7 @@ class _MapState extends State<Map> {
                                         Navigator.push(
                                           context, MaterialPageRoute(
                                             builder: (
-                                                context) => const three()),);
+                                                context) => three()),);
                                       },
                                       child: Text("기숙사측"),
                                       style: OutlinedButton.styleFrom(
@@ -345,7 +345,7 @@ class _MapState extends State<Map> {
                                         Navigator.push(
                                           context, MaterialPageRoute(
                                             builder: (
-                                                context) => const naon()),);
+                                                context) => naon()),);
                                       },
                                       child: Text("나온실"),
                                       style: OutlinedButton.styleFrom(
@@ -401,7 +401,7 @@ class _MapState extends State<Map> {
                                         Navigator.push(
                                           context, MaterialPageRoute(
                                             builder: (
-                                                context) => const raon()),);
+                                                context) => raon()),);
                                       },
                                       child: Text("라온실"),
                                       style: OutlinedButton.styleFrom(

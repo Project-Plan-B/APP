@@ -9,11 +9,11 @@ abstract class MachineWidget extends StatelessWidget {
     required this.deviceId,
     required this.isEnableNotification,
     required this.state,
-    required this.deviceType,
+    required this.roomName,
   });
 
   final int deviceId;
-  final DeviceType deviceType;
+  final RoomName roomName;
   final CurrentState state;
   final bool isEnableNotification;
 
@@ -29,7 +29,7 @@ abstract class MachineWidget extends StatelessWidget {
           deviceId: deviceId,
           isEnableNotification: isEnableNotification,
           state: state,
-          machine: deviceType,
+          machine: roomName,
         ),
       );
 }

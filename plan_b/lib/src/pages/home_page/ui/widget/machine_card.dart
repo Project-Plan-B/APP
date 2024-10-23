@@ -7,13 +7,13 @@ class MachineCard extends MachineWidget {
     super.key,
     required super.deviceId,
     required super.isEnableNotification,
-    required super.deviceType,
+    required super.roomName,
     required super.state,
   });
 
   @override
   Widget build(BuildContext context) {
-    return deviceType.isEmpty
+    return roomName.isEmpty
         ? Container(
       width: 170.0.r,
       padding: EdgeInsets.only(top: 10.0.r),
@@ -63,8 +63,18 @@ class MachineCard extends MachineWidget {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              deviceId==0?
               Text(
-                "${deviceType.text}",
+                "${roomName.text}",
+                textScaler: TextScaler.noScaling,
+                style: TextStyle(
+                  fontSize: 20.0.sp,
+                  fontFamily: "NotoSansKR",
+                  fontWeight: FontWeight.w600,
+                ),
+              )
+              :Text(
+                "${deviceId}층 ${roomName.text}",
                 textScaler: TextScaler.noScaling,
                 style: TextStyle(
                   fontSize: 20.0.sp,
